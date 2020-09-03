@@ -1,0 +1,4 @@
+[27-Dec-2019 14:55:50 America/Lima] PHP Fatal error:  Call to a member function fetch() on null in /home/mampuero/public_html/sispwperu/serviflash/webservice/controlador/Cservice.php on line 546
+[28-Dec-2019 15:21:52 America/Lima] PHP Warning:  date() expects at least 1 parameter, 0 given in /home/mampuero/public_html/sispwperu/serviflash/webservice/cado/ClaseWebservice.php on line 437
+[28-Dec-2019 15:22:21 America/Lima] PHP Warning:  date() expects at least 1 parameter, 0 given in /home/mampuero/public_html/sispwperu/serviflash/webservice/cado/ClaseWebservice.php on line 437
+[28-Dec-2019 15:24:40 America/Lima] PHP Warning:  date() expects at least 1 parameter, 0 given in /home/mampuero/public_html/sispwperu/serviflash/webservice/cado/ClaseWebservice.php on line 437
