@@ -264,7 +264,7 @@ ini_set('display_errors', '1');
 
 	        <!--PAGE CONTENT -->
 	        <div id="content">
-	            <div class="inner" id="contenedor" style="min-height:538px;"></div>
+	            <div class="inner" id="contenedor"></div>
 	        </div>
 	        <!--END PAGE CONTENT -->
 	    </div>
