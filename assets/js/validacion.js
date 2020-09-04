@@ -96,9 +96,24 @@ function validarUsuarios(accion, tipo) {
         }
     }
     mantenimiento(accion);
-    $('#id_AB_anterior').val(id_AB.val());
-    $('#DNI_anterior').val(DNI.val());
-    $('#correo_anterior').val(email.val());
+    if (accion !== 'modificar') {
+        setTimeout(generarClave, 1000);
+    }
+}
+
+function generarClave() {
+    $.ajax({
+        type: "GET",
+        url: '../controlador/contPersonal.php?accion=generarClave',
+        beforeSend: function() {
+            $('#id_AB').val("Cargando...");
+            $("#grabar").attr("disabled", true);
+        },
+        success: function(a) {
+            $('#id_AB').val(a);
+            $("#grabar").attr("disabled", false);
+        }
+    });
 }
 
 function validarCambioClave() {

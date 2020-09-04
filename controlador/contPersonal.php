@@ -82,9 +82,6 @@ if ($accion == "recoverPass") {
 if ($accion == "ListaPersonal") {
     $tipo    = $_GET['tipo'];
     $usuario = 'Personas';
-    if ($tipo == '1') {
-        $usuario = 'Administrativos';
-    }
     $limite  = $_POST['cboCantidadPersonal'];
     $cadena  = $_POST['txtFiltroPersonal'];
     $retorno = '';
@@ -103,16 +100,16 @@ if ($accion == "ListaPersonal") {
                             <div class="row">
                                 <div class="col-sm-4 text-center" style="margin: 0; padding: 0">
                                     <div id="us' . $row['idusuario'] . '">
-                                        <a href="#" class="btnPropUsuario label label-primary" data-nombre="' . $row['nombreusuario'] . '" data-id="' . $row['idusuario'] . '" data-estado="' . $row['estado'] . '" data-toggle="modal" data-target="#propUsuModal">
+                                        <a href="#" class="btnPropUsuario btn btn-xs btn-primary" data-nombre="' . $row['nombreusuario'] . '" data-id="' . $row['idusuario'] . '" data-estado="' . $row['estado'] . '" data-toggle="modal" data-target="#propUsuModal">
                                             <i class="icon-user"></i>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-sm-4 text-center" style="margin: 0; padding: 0">
-                                    <a href="#" class="label label-success modificar" data-opcion="0" data-bean="' . $usuario . '" data-id="' . $row['idpersona'] . '"><i class="icon-edit"></i></a>
+                                    <a href="#" class="btn btn-xs btn-success modificar" data-opcion="0" data-bean="' . $usuario . '" data-id="' . $row['idpersona'] . '"><i class="icon-edit"></i></a>
                                 </div>
                                 <div class="col-sm-4 text-center" style="margin: 0; padding: 0">
-                                    <a href="#" class="eliminarBean label label-danger" data-clase="Personal" data-table="al ' . substr($usuario, 0, strlen($usuario) - 1) . '" data-nombre="' . $row['nombre'] . '" data-id="' . $row['idpersona'] . '" data-toggle="modal" data-target="#deleteModal"><i class="icon-remove"></i></a>
+                                    <a href="#" class="eliminarBean btn btn-xs btn-danger" data-clase="Personal" data-table="al ' . substr($usuario, 0, strlen($usuario) - 1) . '" data-nombre="' . $row['nombre'] . '" data-id="' . $row['idpersona'] . '" data-toggle="modal" data-target="#deleteModal"><i class="icon-remove"></i></a>
                                 </div>
                             </div>
                             </td>
@@ -127,7 +124,7 @@ if ($accion == "ListaPersonal") {
             echo json_encode($jsondata, JSON_FORCE_OBJECT);
         } else {
             $jsondata = array(
-                'tabla' => "tabla='<tr><td colspan='8'><center>NO HAY PERSONAS CON ESTE NOMBRE</center></td></tr>';",
+                'tabla' => "tabla='<tr><td colspan='6'><center>NO HUBO COINCIDENCIAS</center></td></tr>';",
                 'paginacion' => '<b><b id="cantfilas">' . $rs->rowCount() .'</b></b>',
             );
             echo json_encode($jsondata, JSON_FORCE_OBJECT);
@@ -161,7 +158,7 @@ if ($accion == "nuevo") {
     $apellidos = $_POST['apellidos'];
     $id_AB     = $_POST['id_AB'];
     $direccion = $_POST['direccion'];
-    $tipo      = $_GET['tipo'];
+    $tipo      = $_POST['tipo'];
     //tipo = 2 (técnico)
     try {
         $rs = $personal->nuevo($nombres, $apellidos, $id_AB, $direccion, $tipo, $idempresa);
@@ -187,12 +184,12 @@ if ($accion == "modificar") {
     $apellidos = $_POST['apellidos'];
     $id_AB     = $_POST['id_AB'];
     $direccion = $_POST['direccion'];
-    $tipo      = $_GET['tipo'];
+    $tipo      = $_POST['tipo'];
     $id        = $_GET['id'];
     try {
         $rs = $personal->modificar($id, $nombres, $apellidos, $id_AB, $direccion, $tipo, $idempresa);
         if ($rs) {
-            echo '<p style="color: green;"><i class="icon-check"></i> Persona editada Correctamente.</p><p style="color: green;"><i class="icon-check"></i> Usuario editado Correctamente.</p><p style="color: green;"><i class="icon-check"></i> Al editar el DNI, el nombre de usuario se modificará también.</p>';
+            echo '<p style="color: green;"><i class="icon-check"></i> Persona editada Correctamente.</p><p style="color: green;">';
         }
     } catch (Exception $e) {
         echo '<p style="color: red;"><i class="icon-check"></i> No se pudo Editar.</p>';
@@ -259,6 +256,15 @@ if ($accion == "cambiarclave") {
         } else {
             echo 'Tu clave no pudo cambiarse.';
         }
+    } catch (Exception $e) {
+        echo 'Error inesperado';
+    }
+}
+
+if ($accion == "generarClave") {
+    try {
+        $rs = $personal->generarClave();
+        echo $rs;
     } catch (Exception $e) {
         echo 'Error inesperado';
     }

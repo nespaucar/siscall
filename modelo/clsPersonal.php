@@ -76,7 +76,7 @@ class Personal extends Cado
     public function nuevo($nombres, $apellidos, $id_AB, $direccion, $tipo, $idempresa)
     {
         $pass       = md5('admin');
-        $sql        = "INSERT INTO persona(nombres, apellidos, id_AB, direccion) VALUES('$nombres', '$apellidos', '$id_AB', $direccion')";
+        $sql        = "INSERT INTO persona(nombres, apellidos, id_AB, direccion) VALUES('$nombres', '$apellidos', '$id_AB', '$direccion')";
         $resultado  = Cado::ejecutarConsulta($sql);
         $sql2       = "INSERT INTO usuario(nombre, pass, estado, tipo, idpersona, idempresa) VALUES('$id_AB', '$pass', 1, $tipo, (SELECT MAX(id) FROM persona), $idempresa)";
         $resultado2 = Cado::ejecutarConsulta($sql2);
@@ -137,5 +137,21 @@ class Personal extends Cado
         foreach ($resultado as $row) {
             return $row['estado'];
         }
+    }
+
+    public function generarClave() {
+        $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $clave = substr(str_shuffle($permitted_chars), 0, 6);
+        return $this->comprobarClave($clave, $permitted_chars);
+    }
+
+    public function comprobarClave($clave, $permitted_chars) {
+        $sql  = "SELECT id FROM persona WHERE id_AB = '$clave'";
+        $resultado = Cado::ejecutarConsulta($sql);
+        if ($resultado->rowCount() > 0) {
+            $clave = substr(str_shuffle($permitted_chars), 0, 6);
+            $this->comprobarClave($clave, $permitted_chars);
+        }
+        return $clave;
     }
 }

@@ -6,7 +6,7 @@ include "seguridad.php";
 ?>
 <script>
     $(document).ready(function(){
-        llenarTabla('Personal', '8', '&tipo=2');
+        llenarTabla('Personal', '6', '&tipo=2');
     });
 </script>
 <script src="../assets/js/ordenarTablas.js"></script>
@@ -32,7 +32,7 @@ include "seguridad.php";
                             <div class="col-sm-6">
                                 <div class="dataTables_length">
                                     <label>
-                                        Mostrar <select name="cboCantidadPersonal" aria-controls="tablaPersonal" class="form-control input-sm" onchange="llenarTabla('Personal', '8', '&tipo=' + $('#cboTipoPersonal').val());">
+                                        Mostrar <select name="cboCantidadPersonal" aria-controls="tablaPersonal" class="form-control input-sm" onchange="llenarTabla('Personal', '6', '&tipo=' + $('#cboTipoPersonal').val());">
                                             <option value="9">9</option>
                                             <option value="25">25</option>
                                             <option value="50">50</option>
@@ -41,7 +41,7 @@ include "seguridad.php";
                                     </label>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <label>
-                                        Tipo de Persona <select name="cboTipoPersonal" id="cboTipoPersonal" aria-controls="tablaPersonal" class="form-control input-sm" onchange="llenarTabla('Personal', '8', '&tipo=' + $(this).val());" style="width: 200px;">
+                                        Tipo de Persona <select name="cboTipoPersonal" id="cboTipoPersonal" aria-controls="tablaPersonal" class="form-control input-sm" onchange="llenarTabla('Personal', '6', '&tipo=' + $(this).val());" style="width: 200px;">
                                             <option value="2">Cliente</option>
                                             <option value="1">Administrador</option>                                            
                                         </select>
@@ -51,7 +51,7 @@ include "seguridad.php";
                             <div class="col-sm-6">
                                 <div class="dataTables_filter">
                                     <label>Buscar:
-                                        <input type="search" name="txtFiltroPersonal" class="form-control input-sm" aria-controls="tablaPersonal" onkeyup="llenarTabla('Personal', '8', '&tipo=' + $('#cboTipoPersonal').val());">
+                                        <input type="search" name="txtFiltroPersonal" class="form-control input-sm" aria-controls="tablaPersonal" onkeyup="llenarTabla('Personal', '6', '&tipo=' + $('#cboTipoPersonal').val());">
                                     </label>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@ include "seguridad.php";
                                 <th width="35%">Nombres</th>
                                 <th width="10%">Código</th>
                                 <th width="25%">Dirección</th>
-                                <th width="10%">Teléfono</th>
+                                <th width="10%">Celulares</th>
                                 <th width="5%">Tipo</th>
                                 <th width="15%">Acción</th>
                             </tr>

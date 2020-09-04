@@ -125,7 +125,7 @@ if ($accion == "ListaUsuarios") {
             echo json_encode($jsondata, JSON_FORCE_OBJECT);
         } else {
             $jsondata = array(
-                'tabla' => "tabla='<tr><td colspan='7'><center>NO HAY USUARIOS CON ESTE NOMBRE</center></td></tr>';",
+                'tabla' => "tabla='<tr><td colspan='7'><center>NO HUBO COINCIDENCIAS</center></td></tr>';",
                 'paginacion' => '<b><b id="cantfilas">' . $rs->rowCount() .'</b></b>',
             );
             echo json_encode($jsondata, JSON_FORCE_OBJECT);

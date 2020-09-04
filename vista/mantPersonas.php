@@ -5,15 +5,15 @@ header("Pragma: no-cache");
 include "seguridad.php";
 include "../modelo/clsPersonal.php";
 
+$personal  = new Personal();
 $id        = '';
 $nombres   = '';
 $apellidos = '';
-$id_AB     = '';
+$id_AB     = $personal->generarClave();
 $direccion = '';
 $tipo      = '';
 
 if ($_GET['accion'] == 'modificar') {
-    $personal = new Personal();
     $rs       = $personal->cargardatospersona($_GET['id'], $_SESSION['idempresa']);
     foreach ($rs as $dato) {
         $id        = $dato[0];
@@ -26,9 +26,44 @@ if ($_GET['accion'] == 'modificar') {
 }
 ?>
 <script>
+    var idcelular = 0;
     $(document).ready(function(){
         $('#nombres').focus();
-    })
+        if("<?php echo $_GET['accion']; ?>" === "modificar") {
+            $("#tipo").val("<?php echo $tipo; ?>");
+            $("#tipo").attr("disabled", true);
+        }
+        $("#contentTelefonos").html();
+    });
+    $(document).on("click", "#anadir", function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        $("#contentTelefonos").append('<div class="form-group input-group" id="seccioncelular' + idcelular + '"><span class="input-group-addon">Celular </span><input type="text" class="form-control input-sm celularitos" id="celular' + idcelular + '" name="celular' + idcelular + '" maxlength="9" value=""><span class="input-group-addon sacar" style="cursor: pointer; background-color: red; color: white;" onclick="sacarCelular(' + idcelular + ');">- Sacar</span></div>');
+        $("#celular" + idcelular).focus();
+        idcelular++;
+        $("#cantidadcelulares").val(idcelular);
+        alert("tienes " + idcelular);
+    });
+    function sacarCelular(id) {
+        $("#seccioncelular" + id).remove();
+        alert("sacas " + id);
+        reasignaridscelulares();
+    }
+    function reasignaridscelulares() {
+        var ind = 0;
+        $(".celularitos").each(function(index, elemento) {
+            $(this).attr("id", "celular" + index);
+            $(this).attr("name", "celular" + index);
+            $(this).parent().attr("id", "seccioncelular" + index);
+            ind++;
+        });
+        $(".sacar").each(function(index, elemento) {
+            $(this).attr("onclick", "sacarCelular(" + index + ");");
+        });
+        idcelular = ind;
+        $("#cantidadcelulares").val(idcelular);
+        alert("tienes " + idcelular);
+    }
 </script>
 <div class="col-lg-12">
     <div class="col-lg-3">
@@ -39,7 +74,8 @@ if ($_GET['accion'] == 'modificar') {
     <div class="col-lg-6">
         <h4 class="titulo" style="color: blue"><b><i class="icon-user-md"></i> &nbsp;<?php echo ucwords($_GET['accion']); ?></b></h4>
         <hr>
-        <form role="form" id="formulario" action="../controlador/contPersonal.php?accion=<?php echo $_GET['accion']; ?>&id=<?php echo $id; ?>&tipo=2">
+        <form role="form" id="formulario" action="../controlador/contPersonal.php?accion=<?php echo $_GET['accion']; ?>&id=<?php echo $id; ?>">
+            <input type="hidden" id="cantidadcelulares" name="cantidadcelulares" value="0">
             <div class="form-group input-group">
                 <span class="input-group-addon">Tipo *</span>
                 <select type="text" class="form-control input-sm" name="tipo" id="tipo" value="<?php echo $tipo; ?>">
@@ -57,16 +93,18 @@ if ($_GET['accion'] == 'modificar') {
             </div>
             <div class="form-group input-group">
                 <span class="input-group-addon">Código *</span>
-                <input type="text" class="form-control input-sm" name="id_AB" id="id_AB" maxlength="6" value="<?php echo $id_AB; ?>">
+                <input type="text" class="form-control input-sm" readonly="readonly" name="id_AB" id="id_AB" maxlength="6" value="<?php echo $id_AB; ?>">
             </div>
             <div class="form-group input-group">
                 <span class="input-group-addon">Dirección </span>
                 <input type="text" class="form-control input-sm" name="direccion" id="direccion" maxlength="9" value="<?php echo $direccion; ?>">
             </div>
             <div class="form-group input-group">
-                <span class="input-group-addon">Teléfonos *</span>
+                <span class="input-group-addon">Celular *</span>
                 <input type="text" class="form-control input-sm" name="telefono" id="telefono" maxlength="9" value="">
+                <span class="input-group-addon" id="anadir" style="cursor: pointer; background-color: green; color: white;">+ Añadir</span>
             </div>
+            <div id="contentTelefonos"></div>
             <div class="row">
                 <div class="col-lg-5"></div>
                 <div class="col-lg-1">
@@ -75,8 +113,6 @@ if ($_GET['accion'] == 'modificar') {
             </div>
             <?php if ($_GET['accion'] == 'modificar') {?>
                 <input type="hidden" id="id_AB_anterior" name="id_AB_anterior" value="<?php echo $id_AB; ?>">
-                <input type="hidden" id="DNI_anterior" name="DNI_anterior" value="<?php echo $DNI; ?>">
-                <input type="hidden" id="correo_anterior" name="correo_anterior" value="<?php echo $email; ?>">
             <?php }?>
         </form>
     </div>
