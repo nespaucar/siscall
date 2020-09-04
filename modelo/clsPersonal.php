@@ -11,7 +11,7 @@ class Personal extends Cado
         $pass = mysqli_real_escape_string(Cado::conn(), $pass);
         $sql = "SELECT u.id AS id, u.idempresa, e.nombre AS nombreempresa, e.logo, e.logo2, e.correo, e.descripcion, e.mision, e.vision, e.sucursal, e.paginaweb, e.telefono, e.direccion,
         CASE
-            WHEN tipo=1 THEN 'SUPERUSUARIO' WHEN tipo=2 THEN 'TÉCNICO'
+            WHEN tipo=1 THEN 'ADMINISTRADOR' WHEN tipo=2 THEN 'CLIENTE'
         END AS tipo,
         u.nombre as cuenta, email, estado, CONCAT(p.nombres, ' ', apellidos) AS nombre
         FROM usuario u
@@ -41,7 +41,7 @@ class Personal extends Cado
         $like = " LIKE '%$cadena%' ";
         $sql  = "SELECT p.id AS idpersona, u.id AS idusuario, u.estado AS estado, u.email, u.nombre AS nombreusuario,
             CASE
-                WHEN u.tipo=1 THEN 'SUPERUSUARIO' WHEN u.tipo=2 THEN 'TECNICO'
+                WHEN u.tipo=1 THEN 'ADMINISTRADOR' WHEN u.tipo=2 THEN 'CLIENTE'
             END AS tipo,
             CONCAT(p.nombres, ' ', p.apellidos) AS nombre, p.id_AB, p.DNI, p.direccion, p.telefono
             FROM usuario u INNER JOIN persona p ON u.idpersona = p.id

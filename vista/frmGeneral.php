@@ -107,151 +107,22 @@ ini_set('display_errors', '1');
 	                        <i class="icon-tasks"> </i> Mantenimientos
 	                        <span class="pull-right">
 	                          <i class="icon-angle-left"></i>
-	                        </span>&nbsp;<span class="label label-default">4</span>&nbsp;
+	                        </span>&nbsp;<span class="label label-success">3</span>&nbsp;
 	                    </a>
 	                    <ul class="collapse" id="mantenimientos">
 	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmTecnicos.php')">
-	                        		<i class="icon-user-md"></i> Técnicos
+	                        	<a href="javascript:void(0)" onclick="link('frmUsuarios.php')">
+	                        		<i class="icon-user-md"></i> Usuarios
 	                        	</a>
 	                        </li>
 	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmAdministrativos.php')">
-	                        		<i class="glyphicon glyphicon-eye-open"></i> Administrativos
+	                        	<a href="javascript:void(0)" onclick="link('frmPersonas.php')">
+	                        		<i class="glyphicon glyphicon-eye-open"></i> Personas
 	                        	</a>
 	                        </li>
 	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmEquiposMateriales.php')">
-	                        		<i class="glyphicon glyphicon-wrench"></i> Equipos y Materiales
-	                        	</a>
-	                        </li>
-	                        <li class="lista" style="display:none;">
-	                        	<a href="javascript:void(0)" onclick="link('frmServiciosPaquetes.php')">
-	                        		<i class="icon-male"> </i>
-	                        		<i class="icon-archive"></i> Servicios/Paquetes
-	                        	</a>
-	                        </li>
-	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmPuntosBarema.php')">
-	                        		<i class="glyphicon glyphicon-signal"></i> Puntos Barema
-	                        	</a>
-	                        </li>
-	                    </ul>
-	                </li>
-	                
-	                <li class="panel ">
-	                    <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle collapsed" data-target="#movimientos">
-	                        <i class="icon-pencil"></i> Movimientos
-	                        <span class="pull-right">
-	                            <i class="icon-angle-left"></i>
-	                        </span>&nbsp;<span class="label label-success">5</span>&nbsp;
-	                    </a>
-	                    <ul class="collapse" id="movimientos">
-	                    	<li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmGuiasRemision.php')">
-	                        		<i class="glyphicon glyphicon-list-alt"></i> Guías de Remisión 
-	                        	</a>
-	                        </li>
-	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmAsignaciones.php')">
-	                        		<i class="glyphicon glyphicon-list"></i> Asignación a Técnicos 
-	                        	</a>
-	                        </li>
-	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmResAsignaciones.php')">
-	                        		<i class="glyphicon glyphicon-th"></i> Resumen Asignaciones 
-	                        	</a>
-	                        </li> 
-	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmInstalaciones.php')">
-	                        		<i class="glyphicon glyphicon-check"></i> Instalaciones 
-	                        	</a>
-	                        </li>
-	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmDevoluciones.php')">
-	                        		<i class="glyphicon glyphicon-share-alt"></i> Devoluciones 
-	                        	</a>
-	                        </li>
-	                    </ul>
-	                </li>
-	                <li class="panel">
-	                    <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle" data-target="#contSeries">
-	                        <i class="icon-ticket"></i> Control de Series
-	                        <span class="pull-right">
-	                            <i class="icon-angle-left"></i>
-	                        </span>&nbsp;<span class="label label-primary">1</span>&nbsp;
-	                    </a>
-	                    <ul class="collapse" id="contSeries">	                    	
-	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmGestionSeries.php')">
-	                        		<i class="glyphicon glyphicon-qrcode"></i> Gestión de Series
-	                        	</a>
-	                        </li>
-	                    </ul>
-	                </li>
-	                <li class="panel">
-	                    <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle" data-target="#contLiquidaciones">
-	                        <i class="glyphicon glyphicon-thumbs-up"></i> Control de Liquid.
-	                        <span class="pull-right">
-	                            <i class="icon-angle-left"></i>
-	                        </span>&nbsp;<span class="label label-info">1</span>&nbsp;
-	                    </a>
-	                    <ul class="collapse" id="contLiquidaciones">	                    	
-	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmGestionLiquidaciones.php')">
-	                        		<i class="glyphicon glyphicon-screenshot"></i> Gestión de Liquid.
-	                        	</a>
-	                        </li>
-	                    </ul>
-	                </li>
-	                <li class="panel">
-	                    <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle" data-target="#almacen">
-	                        <i class="icon-table"></i> Control de Almacén
-	                        <span class="pull-right">
-	                            <i class="icon-angle-left"></i>
-	                        </span>&nbsp;<span class="label label-danger">2</span>&nbsp;
-	                    </a>
-	                    <ul class="collapse" id="almacen">	                    	
-	                        <!--
-	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmGuiasRemision.php')">
-	                        		<i class="glyphicon glyphicon-shopping-cart"></i> Stock 
-	                        	</a>
-	                        </li>
-	                        -->
-	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmMaterialesSeriados.php')">
-	                        		<i class="glyphicon glyphicon-log-in"></i> Equipos (Seriados) 
-	                        	</a>
-	                        </li>
-	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmMaterialesNoSeriados.php')">
-	                        		<i class="glyphicon glyphicon-compressed"></i> Materiales (No Seriados) 
-	                        	</a>
-	                        </li>
-	                    </ul>
-	                </li>
-	                <li class="panel">
-	                    <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle" data-target="#reportes">
-	                        <i class="glyphicon glyphicon-folder-open"></i> Reportes 
-	                        <span class="pull-right">
-	                            <i class="icon-angle-left"></i>
-	                        </span>&nbsp;<span class="label label-warning">3</span>&nbsp;
-	                    </a>
-	                    <ul class="collapse" id="reportes">	                    	
-	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmProduccion.php')">
-	                        		<i class="icon-bar-chart"></i> Producción 
-	                        	</a>
-	                        </li>
-	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmSeriesTecnico.php')">
-	                        		<i class="glyphicon glyphicon-compressed"></i> Series en Técnico 
-	                        	</a>
-	                        </li>
-	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmLiquidaciones.php')">
-	                        		<i class="glyphicon glyphicon-thumbs-up"></i> Liquidaciones 
+	                        	<a href="javascript:void(0)" onclick="link('frmCelulares.php')">
+	                        		<i class="glyphicon glyphicon-wrench"></i> Celulares
 	                        	</a>
 	                        </li>
 	                    </ul>
@@ -270,7 +141,7 @@ ini_set('display_errors', '1');
 	    </div>
 
 	    <div id="footer" style="width: 100%; position: absolute; bottom: 0; position: fixed">
-	        <p>&copy;  NesPaucar2018 &nbsp; 922179451&nbsp;</p>
+	        <p>&copy;  GarzaSoft2020 &nbsp; 922179451&nbsp;</p>
 	    </div>
 
 	    <div id="gener"></div>
@@ -287,10 +158,6 @@ ini_set('display_errors', '1');
 	    <script src="../assets/js/validacion.js"></script>
 	    <script src="../assets/js/notifications.js"></script>
 	    <script src="../assets/js/scriptPersonal.js"></script>
-	    <!--<script src="../assets/js/scriptServicioPaquete.js"></script>-->
-	    <script src="../assets/js/scriptAsignacion.js"></script>
-	    <script src="../assets/js/scriptInstalacion.js"></script>
-	    <script src="../assets/js/scriptEquipoMaterial.js"></script>
 	    <script src="../assets/js/ordenarTablas.js"></script>
 	    <script src="../assets/js/jquery-ui.min.js"></script>
 

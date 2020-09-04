@@ -81,7 +81,7 @@ if ($accion == "recoverPass") {
 
 if ($accion == "ListaPersonal") {
     $tipo    = $_GET['tipo'];
-    $usuario = 'Tecnicos';
+    $usuario = 'Personas';
     if ($tipo == '1') {
         $usuario = 'Administrativos';
     }
@@ -93,55 +93,32 @@ if ($accion == "ListaPersonal") {
         if ($rs->rowCount() > 0) {
             $i = 1;
             foreach ($rs as $row) {
-                if($i == 1) {
-                    $primeridserie = $row['idpersona'];
-                } else if($i == $rs->rowCount()) {
-                    $ultimoidserie = $row['idpersona'];
-                }
-                if(!isset($_GET['res'])) {
-                    $retorno .= '<tr id="' . $row['idpersona'] . '">';
-                    $retorno .= '<td>' . $row['nombre'] . '</td>';
-                    $retorno .= '<td>' . $row['DNI'] . '</td>';
-                    $retorno .= '<td>' . $row['id_AB'] . '</td>';
-                    $retorno .= '<td>' . $row['direccion'] . '</td>';
-                    $retorno .= '<td>' . $row['telefono'] . '</td>';
-                    $retorno .= '<td>' . $row['email'] . '</td>';
-                    $retorno .= '<td>
-                                <div class="row">
-                                    <div class="col-sm-4 text-center" style="margin: 0; padding: 0">
-                                        <div id="us' . $row['idusuario'] . '">
-                                            <a href="#" class="btnPropUsuario label label-primary" data-nombre="' . $row['nombreusuario'] . '" data-id="' . $row['idusuario'] . '" data-estado="' . $row['estado'] . '" data-toggle="modal" data-target="#propUsuModal">
-                                                <i class="icon-user"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4 text-center" style="margin: 0; padding: 0">
-                                        <a href="#" class="label label-success modificar" data-opcion="0" data-bean="' . $usuario . '" data-id="' . $row['idpersona'] . '"><i class="icon-edit"></i></a>
-                                    </div>
-                                    <div class="col-sm-4 text-center" style="margin: 0; padding: 0">
-                                        <a href="#" class="eliminarBean label label-danger" data-clase="Personal" data-table="al ' . substr($usuario, 0, strlen($usuario) - 1) . '" data-nombre="' . $row['nombre'] . '" data-id="' . $row['idpersona'] . '" data-toggle="modal" data-target="#deleteModal"><i class="icon-remove"></i></a>
+                $retorno .= '<tr id="' . $row['idpersona'] . '">';
+                $retorno .= '<td>' . $row['nombre'] . '</td>';
+                $retorno .= '<td>' . $row['DNI'] . '</td>';
+                $retorno .= '<td>' . $row['id_AB'] . '</td>';
+                $retorno .= '<td>' . $row['direccion'] . '</td>';
+                $retorno .= '<td>' . $row['telefono'] . '</td>';
+                $retorno .= '<td>' . $row['email'] . '</td>';
+                $retorno .= '<td>' . $row['tipo'] . '</td>';
+                $retorno .= '<td>
+                            <div class="row">
+                                <div class="col-sm-4 text-center" style="margin: 0; padding: 0">
+                                    <div id="us' . $row['idusuario'] . '">
+                                        <a href="#" class="btnPropUsuario label label-primary" data-nombre="' . $row['nombreusuario'] . '" data-id="' . $row['idusuario'] . '" data-estado="' . $row['estado'] . '" data-toggle="modal" data-target="#propUsuModal">
+                                            <i class="icon-user"></i>
+                                        </a>
                                     </div>
                                 </div>
-                                </td>
-                                </tr>';   
-                } else {
-                    $retorno .= '<tr id="' . $row['idpersona'] . '">';
-                    $retorno .= '<td>' . $row['id_AB'] . '</td>';
-                    $retorno .= '<td>' . $row['DNI'] . '</td>';
-                    $retorno .= '<td>' . $row['nombre'] . '</td>';
-                    $retorno .= '<td>
-                                <div class="row">
-                                    <div class="col-md-12 text-center" style="margin: 0; padding: 0">
-                                        <div id="us' . $row['idusuario'] . '">
-                                            <a href="#" class="btnResAsignaciones label label-primary" data-carnet="' . $row['id_AB'] . '" data-id="' . $row['idpersona'] . '" data-toggle="modal" data-target="#resAsignacionesModal">
-                                                <i class="icon-list"></i>
-                                            </a>
-                                        </div>
-                                    </div>
+                                <div class="col-sm-4 text-center" style="margin: 0; padding: 0">
+                                    <a href="#" class="label label-success modificar" data-opcion="0" data-bean="' . $usuario . '" data-id="' . $row['idpersona'] . '"><i class="icon-edit"></i></a>
                                 </div>
-                                </td>
-                                </tr>'; 
-                }
+                                <div class="col-sm-4 text-center" style="margin: 0; padding: 0">
+                                    <a href="#" class="eliminarBean label label-danger" data-clase="Personal" data-table="al ' . substr($usuario, 0, strlen($usuario) - 1) . '" data-nombre="' . $row['nombre'] . '" data-id="' . $row['idpersona'] . '" data-toggle="modal" data-target="#deleteModal"><i class="icon-remove"></i></a>
+                                </div>
+                            </div>
+                            </td>
+                            </tr>';
                 $i++;             
             }
             
@@ -152,7 +129,7 @@ if ($accion == "ListaPersonal") {
             echo json_encode($jsondata, JSON_FORCE_OBJECT);
         } else {
             $jsondata = array(
-                'tabla' => "tabla='<tr><td colspan='7'><center>NO HAY PERSONAL CON ESTE NOMBRE</center></td></tr>';",
+                'tabla' => "tabla='<tr><td colspan='8'><center>NO HAY PERSONAS CON ESTE NOMBRE</center></td></tr>';",
                 'paginacion' => '<b><b id="cantfilas">' . $rs->rowCount() .'</b></b>',
             );
             echo json_encode($jsondata, JSON_FORCE_OBJECT);
