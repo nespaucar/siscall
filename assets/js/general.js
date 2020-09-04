@@ -182,4 +182,4 @@ function gener() {
         }
     });
 }
-setInterval(gener, 1000);
+setInterval(gener, 3000);

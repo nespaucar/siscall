@@ -1,6 +1,7 @@
 <?php
 
 include_once "../cado/cado.php";
+date_default_timezone_set("America/Lima");
 
 class Usuario extends Cado
 {
@@ -31,7 +32,7 @@ class Usuario extends Cado
 
     public function reiniciarPass($pass, $idusuario, $idempresa)
     {
-        $sql       = "UPDATE usuario SET pass = '$pass' WHERE id = $idusuario AND idempresa = $idempresa";
+        $sql       = "UPDATE usuario SET pass = '$pass', updated_at='" . date("Y-m-d H:i:s") . "' WHERE id = $idusuario AND idempresa = $idempresa";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }
@@ -54,7 +55,7 @@ class Usuario extends Cado
 
     public function cambiarestadousuario($id, $estado, $idempresa)
     {
-        $sql       = "UPDATE usuario SET estado=$estado WHERE id=$id AND idempresa = $idempresa";
+        $sql       = "UPDATE usuario SET estado=$estado, updated_at='" . date("Y-m-d H:i:s") . "' WHERE id=$id AND idempresa = $idempresa";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }
@@ -62,7 +63,7 @@ class Usuario extends Cado
     public function resetearclave($id, $idempresa)
     {
         $pass      = md5('admin');
-        $sql       = "UPDATE usuario SET pass='$pass' WHERE id=$id AND idempresa = $idempresa";
+        $sql       = "UPDATE usuario SET pass='$pass', updated_at='" . date("Y-m-d H:i:s") . "' WHERE id=$id AND idempresa = $idempresa";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }
@@ -71,7 +72,7 @@ class Usuario extends Cado
     {
         session_start();
         $clavenueva = md5($clavenueva);
-        $sql        = "UPDATE usuario SET pass='$clavenueva' WHERE id=" . $_SESSION['id'] . " AND idempresa = " . $idempresa;
+        $sql        = "UPDATE usuario SET pass='$clavenueva', updated_at='" . date("Y-m-d H:i:s") . "' WHERE id=" . $_SESSION['id'] . " AND idempresa = " . $idempresa;
         $resultado  = Cado::ejecutarConsulta($sql);
         return $resultado;
     }

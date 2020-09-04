@@ -1,8 +1,10 @@
 <?php
 include "../modelo/clsPersonal.php";
+include "../modelo/clsTelefono.php";
 
 $accion   = $_GET['accion'];
 $personal = new Personal();
+$otelefono = new Telefono();
 
 if ($accion == "login") {
     $nombre = $_POST["nombre"];
@@ -154,26 +156,58 @@ if ($accion == "noduplicidad") {
 }
 
 if ($accion == "nuevo") {
-    $nombres   = $_POST['nombres'];
-    $apellidos = $_POST['apellidos'];
-    $id_AB     = $_POST['id_AB'];
-    $direccion = $_POST['direccion'];
-    $tipo      = $_POST['tipo'];
-    //tipo = 2 (técnico)
+    $nombres           = $_POST['nombres'];
+    $apellidos         = $_POST['apellidos'];
+    $id_AB             = $_POST['id_AB'];
+    $direccion         = $_POST['direccion'];
+    $tipo              = $_POST['tipo'];
+    $cantidadcelulares = $_POST['cantidadcelulares'];
+    $telefono          = $_POST['telefono'];
+    $procederegistro   = true;
+    $procederegistro2  = true;
+    $celular           = '';
+    $mensaje           = '';
     try {
-        $rs = $personal->nuevo($nombres, $apellidos, $id_AB, $direccion, $tipo, $idempresa);
-        if ($rs->rowCount() > 0) {
-            if($tipo == '2') {
-                $rs = $personal->DatosPersona($id_AB, $idempresa);
-                foreach ($rs as $row) {
-                    $idpersona = $row['id'];
-                    break;
+        //Compruebo los teléfonos
+        $procederegistro2 = $otelefono->comprobarNumero($telefono);
+        if(!$procederegistro2) {
+            $mensaje .= '<p style="color: red;"><i class="icon-check"></i> El número de celular ' . $telefono . ' ya se encuentra registrado.</p>';
+        }
+        if($cantidadcelulares > 0) {
+            for ($cc=0; $cc < $cantidadcelulares; $cc++) { 
+                $celular = $_POST['celular' . $cc];
+                $procederegistro = $otelefono->comprobarNumero($celular);
+                if(!$procederegistro) {
+                    $mensaje .= '<p style="color: red;"><i class="icon-check"></i> El número de celular ' . $celular . ' ya se encuentra registrado.</p>';
                 }
             }
-            echo '<p style="color: green;"><i class="icon-check"></i> Persona registrada Correctamente.</p><p style="color: green;"><i class="icon-check"></i> Usuario registrado Correctamente.</p><p style="color: green;"><i class="icon-check"></i> La contraseña inicial para este usuario es "admin".</p>';
-        } else {
-            echo '<p style="color: red;"><i class="icon-check"></i> No se pudo Registrar.</p>';
         }
+        if($procederegistro && $procederegistro2) {
+            $rs = $personal->nuevo($nombres, $apellidos, $id_AB, $direccion, $tipo, $idempresa);
+            if ($rs->rowCount() > 0) {
+                if($tipo == '2') {
+                    $rs = $personal->DatosPersona($id_AB, $idempresa);
+                    foreach ($rs as $row) {
+                        $idpersona = $row['id'];
+                        break;
+                    }
+                }
+                $mensaje = '<p style="color: green;"><i class="icon-check"></i> Persona registrada Correctamente.</p><p style="color: green;"><i class="icon-check"></i> Usuario registrado Correctamente.</p><p style="color: green;"><i class="icon-check"></i> La contraseña inicial para este usuario es "admin".</p>';
+                // Registramos los celulares
+                $rs2 = $otelefono->nuevo($telefono, $idpersona);
+                $mensaje .= '<p style="color: green;"><i class="icon-check"></i> Número ' . $telefono . ' registrado.</p>';
+                if($cantidadcelulares > 0) {
+                    for ($cc=0; $cc < $cantidadcelulares; $cc++) { 
+                        $celular = $_POST['celular' . $cc];
+                        $procederegistro = $otelefono->nuevo($celular, $idpersona);
+                        $mensaje .= '<p style="color: green;"><i class="icon-check"></i> Número ' . $celular . ' registrado.</p>';
+                    }
+                }
+            } else {
+                $mensaje = '<p style="color: red;"><i class="icon-check"></i> No se pudo Registrar.</p>';
+            }
+        }
+        echo $mensaje;
     } catch (Exception $e) {
         echo '<p style="color: red;"><i class="icon-check"></i> No se pudo Registrar.</p>';
     }

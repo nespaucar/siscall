@@ -1,6 +1,7 @@
 <?php
 
 include_once "../cado/cado.php";
+date_default_timezone_set("America/Lima");
 
 class Personal extends Cado
 {
@@ -31,7 +32,7 @@ class Personal extends Cado
 
     public function reiniciarPass($pass, $idusuario, $idempresa)
     {
-        $sql       = "UPDATE usuario SET pass = '$pass' WHERE id = $idusuario AND idempresa = $idempresa";
+        $sql       = "UPDATE usuario SET pass = '$pass', updated_at = '" . date("Y-m-d H:i:s") . "' WHERE id = $idusuario AND idempresa = $idempresa";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }
@@ -75,10 +76,11 @@ class Personal extends Cado
 
     public function nuevo($nombres, $apellidos, $id_AB, $direccion, $tipo, $idempresa)
     {
+        session_start();
         $pass       = md5('admin');
-        $sql        = "INSERT INTO persona(nombres, apellidos, id_AB, direccion) VALUES('$nombres', '$apellidos', '$id_AB', '$direccion')";
+        $sql        = "INSERT INTO persona(nombres, apellidos, id_AB, direccion, encargado_id, created_at, updated_at) VALUES('$nombres', '$apellidos', '$id_AB', '$direccion', " . $_SESSION['id'] . ", '" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "')";
         $resultado  = Cado::ejecutarConsulta($sql);
-        $sql2       = "INSERT INTO usuario(nombre, pass, estado, tipo, idpersona, idempresa) VALUES('$id_AB', '$pass', 1, $tipo, (SELECT MAX(id) FROM persona), $idempresa)";
+        $sql2       = "INSERT INTO usuario(nombre, pass, estado, tipo, idpersona, idempresa, encargado_id, created_at, updated_at) VALUES('$id_AB', '$pass', 1, $tipo, (SELECT MAX(id) FROM persona), $idempresa, " . $_SESSION['id'] . ", '" . date("Y-m-d H:i:s") . "', '" . date("Y-m-d H:i:s") . "')";
         $resultado2 = Cado::ejecutarConsulta($sql2);
         return $resultado2;
     }
@@ -92,9 +94,9 @@ class Personal extends Cado
 
     public function modificar($id, $nombres, $apellidos, $id_AB, $direccion, $tipo, $idempresa)
     {
-        $sql        = "UPDATE persona SET nombres='$nombres', apellidos='$apellidos', id_AB='$id_AB', direccion='$direccion' WHERE id=$id";
+        $sql        = "UPDATE persona SET nombres='$nombres', apellidos='$apellidos', id_AB='$id_AB', direccion='$direccion', updated_at='" . date("Y-m-d H:i:s") . "' WHERE id=$id";
         $resultado  = Cado::ejecutarConsulta($sql);
-        $sql2       = "UPDATE usuario SET nombre='$id_AB' WHERE idpersona=$id AND idempresa = $idempresa";
+        $sql2       = "UPDATE usuario SET nombre='$id_AB', updated_at='" . date("Y-m-d H:i:s") . "', tipo=$tipo WHERE idpersona=$id AND idempresa = $idempresa";
         $resultado2 = Cado::ejecutarConsulta($sql2);
         return $resultado2;
     }
@@ -108,7 +110,7 @@ class Personal extends Cado
 
     public function cambiarestadousuario($id, $estado, $idempresa)
     {
-        $sql       = "UPDATE usuario SET estado=$estado WHERE id=$id AND idempresa = $idempresa";
+        $sql       = "UPDATE usuario SET estado=$estado, updated_at='" . date("Y-m-d H:i:s") . "' WHERE id=$id AND idempresa = $idempresa";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }
@@ -116,7 +118,7 @@ class Personal extends Cado
     public function resetearclave($id, $idempresa)
     {
         $pass      = md5('admin');
-        $sql       = "UPDATE usuario SET pass='$pass' WHERE id=$id AND idempresa = $idempresa";
+        $sql       = "UPDATE usuario SET pass='$pass', updated_at='" . date("Y-m-d H:i:s") . "' WHERE id=$id AND idempresa = $idempresa";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }
@@ -125,7 +127,7 @@ class Personal extends Cado
     {
         session_start();
         $clavenueva = md5($clavenueva);
-        $sql        = "UPDATE usuario SET pass='$clavenueva' WHERE id=" . $_SESSION['id'] . " AND idempresa = " . $idempresa;
+        $sql        = "UPDATE usuario SET pass='$clavenueva', updated_at='" . date("Y-m-d H:i:s") . "' WHERE id=" . $_SESSION['id'] . " AND idempresa = " . $idempresa;
         $resultado  = Cado::ejecutarConsulta($sql);
         return $resultado;
     }

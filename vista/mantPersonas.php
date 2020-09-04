@@ -21,7 +21,7 @@ if ($_GET['accion'] == 'modificar') {
         $apellidos = $dato[2];
         $id_AB     = $dato[3];
         $direccion = $dato[5];
-        $tipo      = $dato[8];
+        $tipo      = $dato[11];
     }
 }
 ?>
@@ -29,9 +29,11 @@ if ($_GET['accion'] == 'modificar') {
     var idcelular = 0;
     $(document).ready(function(){
         $('#nombres').focus();
+        $("#parteAdminCelulares").hide();
         if("<?php echo $_GET['accion']; ?>" === "modificar") {
             $("#tipo").val("<?php echo $tipo; ?>");
-            $("#tipo").attr("disabled", true);
+            $("#parteCelular").hide();
+            $("#parteAdminCelulares").show();
         }
         $("#contentTelefonos").html();
     });
@@ -42,11 +44,9 @@ if ($_GET['accion'] == 'modificar') {
         $("#celular" + idcelular).focus();
         idcelular++;
         $("#cantidadcelulares").val(idcelular);
-        alert("tienes " + idcelular);
     });
     function sacarCelular(id) {
         $("#seccioncelular" + id).remove();
-        alert("sacas " + id);
         reasignaridscelulares();
     }
     function reasignaridscelulares() {
@@ -62,7 +62,6 @@ if ($_GET['accion'] == 'modificar') {
         });
         idcelular = ind;
         $("#cantidadcelulares").val(idcelular);
-        alert("tienes " + idcelular);
     }
 </script>
 <div class="col-lg-12">
@@ -97,14 +96,17 @@ if ($_GET['accion'] == 'modificar') {
             </div>
             <div class="form-group input-group">
                 <span class="input-group-addon">Dirección </span>
-                <input type="text" class="form-control input-sm" name="direccion" id="direccion" maxlength="9" value="<?php echo $direccion; ?>">
+                <input type="text" class="form-control input-sm" name="direccion" id="direccion" maxlength="80" value="<?php echo $direccion; ?>">
             </div>
-            <div class="form-group input-group">
+            <div class="form-group input-group" id="parteCelular">
                 <span class="input-group-addon">Celular *</span>
                 <input type="text" class="form-control input-sm" name="telefono" id="telefono" maxlength="9" value="">
                 <span class="input-group-addon" id="anadir" style="cursor: pointer; background-color: green; color: white;">+ Añadir</span>
             </div>
             <div id="contentTelefonos"></div>
+            <div class="form-group input-group" id="parteAdminCelulares">
+                <a style="cursor: pointer;">Si quieres gestionar los celulares de esta persona da click aquí</a>
+            </div>
             <div class="row">
                 <div class="col-lg-5"></div>
                 <div class="col-lg-1">

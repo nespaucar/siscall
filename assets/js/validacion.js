@@ -43,7 +43,9 @@ function validarUsuarios(accion, tipo) {
     var apellidos = $('#apellidos');
     var id_AB = $('#id_AB');
     var direccion = $('#direccion');
+    var telefono = $('#telefono');
     var mensaje = '';
+    var enviarCelulares = true;
     if (!nombres.val()) {
         mensaje += '<p style="color: red;"><i class="icon-check"></i> Nombres Requeridos.</p>';
     }
@@ -56,16 +58,59 @@ function validarUsuarios(accion, tipo) {
     if ((id_AB.val()).length != 6) {
         mensaje += '<p style="color: red;"><i class="icon-check"></i> Código Requiere 6 caracteres.</p>';
     } else {
-        if (accion == 'modificar') {
+        if (accion === 'modificar') {
             if (id_AB.val() != $('#id_AB_anterior').val()) {
-                if (noduplicidad(id_AB.val(), 'id_AB', 'persona', 'Personal') == 'true') {
+                if (noduplicidad(id_AB.val(), 'id_AB', 'persona', 'Personal') === 'true') {
                     mensaje += '<p style="color: red;"><i class="icon-check"></i> El Código ya existe.</p>';
                 }
             }
         } else {
-            if (noduplicidad(id_AB.val(), 'id_AB', 'persona', 'Personal') == 'true') {
+            if (noduplicidad(id_AB.val(), 'id_AB', 'persona', 'Personal') === 'true') {
                 mensaje += '<p style="color: red;"><i class="icon-check"></i> El Código ya existe.</p>';
             }
+        }
+    }
+    if (accion !== 'modificar') {
+        var numers = [];
+        if((telefono.val()).length != 9) {
+            mensaje += '<p style="color: red;"><i class="icon-check"></i> El primer número de celular es obligatorio y con 9 dígitos.</p>';
+        } else {
+            numers.push(telefono.val());
+        }
+        $(".celularitos").each(function(index, elemento) {
+            if($(this).val().length === "") {
+                enviarCelulares = false;
+                mensaje += '<p style="color: red;"><i class="icon-check"></i> El número no debe estar vacío.</p>';
+            } else if($(this).val().length !== 9) {
+                enviarCelulares = false;
+                mensaje += '<p style="color: red;"><i class="icon-check"></i> Él número "' + $(this).val() + '" no es válido.</p>';
+            } else if($(this).val().length === 9) {
+                if(comprobarExistenciaCelular($(this).val()) === "1") {
+                    enviarCelulares = false;
+                    mensaje += '<p style="color: red;"><i class="icon-check"></i> Número "' + $(this).val() + '" ya está registrado.</p>';
+                } else if(comprobarExistenciaCelular($(this).val()) === "3") {
+                    enviarCelulares = false;
+                    mensaje += '<p style="color: red;"><i class="icon-check"></i> Error inesperado.</p>';
+                }
+                numers.push($(this).val());
+            }
+        });
+        if(enviarCelulares) {
+            var cant = cantRep(telefono.val(), numers);
+            if(cant === 1) {
+                if(numers.length > 0) {
+                    for(var i = 0; i < numers.length; i++) {
+                        cant = cantRep(numers[i], numers);
+                        if(cant > 1) {
+                            mensaje += '<p style="color: red;"><i class="icon-check"></i> No pueden repetirse los números.</p>';
+                            enviarCelulares = false;
+                        }
+                    }
+                }
+            } else {
+                mensaje += '<p style="color: red;"><i class="icon-check"></i> No pueden repetirse los números.</p>';
+                enviarCelulares = false;
+            }            
         }
     }
     $('#mensajes').html(mensaje);
@@ -81,24 +126,43 @@ function validarUsuarios(accion, tipo) {
         id_AB.focus();
         return false;
     } else {
-        if (accion == 'modificar') {
+        if (accion === 'modificar') {
             if (id_AB.val() != $('#id_AB_anterior').val()) {
-                if (noduplicidad(id_AB.val(), 'id_AB', 'persona', 'Personal') == 'true') {
+                if (noduplicidad(id_AB.val(), 'id_AB', 'persona', 'Personal') === 'true') {
                     id_AB.focus();
                     return false;
                 }
             }
         } else {
-            if (noduplicidad(id_AB.val(), 'id_AB', 'persona', 'Personal') == 'true') {
+            if (noduplicidad(id_AB.val(), 'id_AB', 'persona', 'Personal') === 'true') {
                 id_AB.focus();
                 return false;
             }
         }
     }
+    if (accion !== 'modificar') {
+        if((telefono.val()).length != 9) {
+            telefono.focus();
+            return false;
+        }
+    }
+    if(!enviarCelulares) {
+        return false;
+    }
     mantenimiento(accion);
     if (accion !== 'modificar') {
         setTimeout(generarClave, 1000);
     }
+}
+
+function cantRep(telefono, numers) {
+    var ii = 0;
+    for(var i = 0; i < numers.length; i++) {
+        if(numers[i] === telefono) {
+            ii++;
+        }
+    }
+    return ii;
 }
 
 function generarClave() {
@@ -116,6 +180,18 @@ function generarClave() {
     });
 }
 
+function comprobarExistenciaCelular(numero) {
+    return JSON.parse($.ajax({
+        url: '../controlador/contTelefono.php?accion=comprobarExistenciaCelular&numero=' + numero,
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function(result) {
+            return result;
+        }
+    }).responseText);
+}
+
 function validarCambioClave() {
     var claveactual = $('#claveactual');
     var clavenueva1 = $('#clavenueva1');
@@ -129,7 +205,7 @@ function validarCambioClave() {
         claveactual.focus();
         return false;
     } else {
-        if (noduplicidad(claveactual.val(), 'pass', 'usuario', 'Personal') == 'false') {
+        if (noduplicidad(claveactual.val(), 'pass', 'usuario', 'Personal') === 'false') {
             spanclavenueva.html('');
             spanclaveactual.html('No coincide con tu clave actual.');
             claveactual.focus();
@@ -178,14 +254,14 @@ function validarTelefonos(accion) {
     if ((codigo.val()).length != 10) {
         mensaje += '<p style="color: red;"><i class="icon-check"></i> Código requiere 10 caracteres.</p>';
     } else {
-        if (accion == 'modificar') {
+        if (accion === 'modificar') {
             if (codigo.val() != $('#codigo_anterior').val()) {
-                if (noduplicidad(codigo.val(), 'codigo', 'telefono', 'Telefono') == 'true') {
+                if (noduplicidad(codigo.val(), 'codigo', 'telefono', 'Telefono') === 'true') {
                     mensaje += '<p style="color: red;"><i class="icon-check"></i> El código ya existe.</p>';
                 }
             }
         } else {
-            if (noduplicidad(codigo.val(), 'codigo', 'telefono', 'Telefono') == 'true') {
+            if (noduplicidad(codigo.val(), 'codigo', 'telefono', 'Telefono') === 'true') {
                 mensaje += '<p style="color: red;"><i class="icon-check"></i> El código ya existe.</p>';
             }
         }
@@ -196,14 +272,14 @@ function validarTelefonos(accion) {
     if ((descripcion.val()).length > 100) {
         mensaje += '<p style="color: red;"><i class="icon-check"></i> La descripción requiere como máximo 100 caracteres.</p>';
     } else {
-        if (accion == 'modificar') {
+        if (accion === 'modificar') {
             if (descripcion.val() != $('#descripcion_anterior').val()) {
-                if (noduplicidad(descripcion.val(), 'descripcion', 'telefono', 'Telefono') == 'true') {
+                if (noduplicidad(descripcion.val(), 'descripcion', 'telefono', 'Telefono') === 'true') {
                     mensaje += '<p style="color: red;"><i class="icon-check"></i> La descripción ya existe.</p>';
                 }
             }
         } else {
-            if (noduplicidad(descripcion.val(), 'descripcion', 'telefono', 'Telefono') == 'true') {
+            if (noduplicidad(descripcion.val(), 'descripcion', 'telefono', 'Telefono') === 'true') {
                 mensaje += '<p style="color: red;"><i class="icon-check"></i> La descripción ya existe.</p>';
             }
         }
@@ -217,15 +293,15 @@ function validarTelefonos(accion) {
         codigo.focus();
         return false;
     } else {
-        if (accion == 'modificar') {
+        if (accion === 'modificar') {
             if (codigo.val() != $('#codigo_anterior').val()) {
-                if (noduplicidad(codigo.val(), 'codigo', 'telefono', 'Telefono') == 'true') {
+                if (noduplicidad(codigo.val(), 'codigo', 'telefono', 'Telefono') === 'true') {
                     codigo.focus();
                     return false;
                 }
             }
         } else {
-            if (noduplicidad(codigo.val(), 'codigo', 'telefono', 'Telefono') == 'true') {
+            if (noduplicidad(codigo.val(), 'codigo', 'telefono', 'Telefono') === 'true') {
                 codigo.focus();
                 return false;
             }
@@ -239,15 +315,15 @@ function validarTelefonos(accion) {
         descripcion.focus();
         return false;
     } else {
-        if (accion == 'modificar') {
+        if (accion === 'modificar') {
             if (descripcion.val() != $('#descripcion_anterior').val()) {
-                if (noduplicidad(descripcion.val(), 'descripcion', 'telefono', 'Telefono') == 'true') {
+                if (noduplicidad(descripcion.val(), 'descripcion', 'telefono', 'Telefono') === 'true') {
                     descripcion.focus();
                     return false;
                 }
             }
         } else {
-            if (noduplicidad(descripcion.val(), 'descripcion', 'telefono', 'Telefono') == 'true') {
+            if (noduplicidad(descripcion.val(), 'descripcion', 'telefono', 'Telefono') === 'true') {
                 descripcion.focus();
                 return false;
             }
