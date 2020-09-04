@@ -9,10 +9,8 @@ $id        = '';
 $nombres   = '';
 $apellidos = '';
 $id_AB     = '';
-$DNI       = '';
 $direccion = '';
-$telefono  = '';
-$email     = '';
+$tipo      = '';
 
 if ($_GET['accion'] == 'modificar') {
     $personal = new Personal();
@@ -22,10 +20,8 @@ if ($_GET['accion'] == 'modificar') {
         $nombres   = $dato[1];
         $apellidos = $dato[2];
         $id_AB     = $dato[3];
-        $DNI       = $dato[4];
         $direccion = $dato[5];
-        $telefono  = $dato[6];
-        $email     = $dato[7];
+        $tipo      = $dato[8];
     }
 }
 ?>
@@ -46,7 +42,7 @@ if ($_GET['accion'] == 'modificar') {
         <form role="form" id="formulario" action="../controlador/contPersonal.php?accion=<?php echo $_GET['accion']; ?>&id=<?php echo $id; ?>&tipo=2">
             <div class="form-group input-group">
                 <span class="input-group-addon">Tipo *</span>
-                <select type="text" class="form-control input-sm" name="nombres" id="nombres" maxlength="80" value="<?php echo $nombres; ?>">
+                <select type="text" class="form-control input-sm" name="tipo" id="tipo" value="<?php echo $tipo; ?>">
                     <option value="2">Cliente</option>
                     <option value="1">Administrador</option>                    
                 </select>
@@ -64,25 +60,17 @@ if ($_GET['accion'] == 'modificar') {
                 <input type="text" class="form-control input-sm" name="id_AB" id="id_AB" maxlength="6" value="<?php echo $id_AB; ?>">
             </div>
             <div class="form-group input-group">
-                <span class="input-group-addon">DNI</span>
-                <input type="text" class="form-control input-sm" name="DNI" id="DNI" maxlength="8" value="<?php echo $DNI; ?>">
-            </div>
-            <div class="form-group input-group">
-                <span class="input-group-addon">Dirección</span>
-                <input type="text" class="form-control input-sm" name="direccion" id="direccion" maxlength="100" value="<?php echo $direccion; ?>">
-            </div>            
-            <div class="form-group input-group">
-                <span class="input-group-addon">Correo</span>
-                <input type="text" class="form-control input-sm" name="email" id="email" maxlength="100" value="<?php echo $email; ?>">
+                <span class="input-group-addon">Dirección </span>
+                <input type="text" class="form-control input-sm" name="direccion" id="direccion" maxlength="9" value="<?php echo $direccion; ?>">
             </div>
             <div class="form-group input-group">
                 <span class="input-group-addon">Teléfonos *</span>
-                <input type="text" class="form-control input-sm" name="telefono" id="telefono" maxlength="9" value="<?php echo $telefono; ?>">
+                <input type="text" class="form-control input-sm" name="telefono" id="telefono" maxlength="9" value="">
             </div>
             <div class="row">
                 <div class="col-lg-5"></div>
                 <div class="col-lg-1">
-                    <a href="#" class="grabar btn btn-success" data-bean='Tecnicos' data-accion="<?php echo $_GET['accion']; ?>"><i class="icon-save"></i> Grabar</a>
+                    <a href="#" class="grabar btn btn-success" data-bean='Personas' data-tipo='<?php echo $tipo; ?>' data-accion="<?php echo $_GET['accion']; ?>"><i class="icon-save"></i> Grabar</a>
                 </div>
             </div>
             <?php if ($_GET['accion'] == 'modificar') {?>

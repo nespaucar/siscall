@@ -112,7 +112,7 @@ ini_set('display_errors', '1');
 	                    <ul class="collapse" id="mantenimientos">
 	                        <li class="lista">
 	                        	<a href="javascript:void(0)" onclick="link('frmUsuarios.php')">
-	                        		<i class="icon-user-md"></i> Usuarios
+	                        		<i class="glyphicon glyphicon-user"></i> Usuarios
 	                        	</a>
 	                        </li>
 	                        <li class="lista">

@@ -62,12 +62,10 @@ include "seguridad.php";
                     <table class="table table-sm table-striped table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th width="25%">Nombres</th>
-                                <th width="5%">DNI</th>
-                                <th width="5%">Código</th>
-                                <th width="20%">Dirección</th>
+                                <th width="35%">Nombres</th>
+                                <th width="10%">Código</th>
+                                <th width="25%">Dirección</th>
                                 <th width="10%">Teléfono</th>
-                                <th width="15%">Correo</th>
                                 <th width="5%">Tipo</th>
                                 <th width="15%">Acción</th>
                             </tr>

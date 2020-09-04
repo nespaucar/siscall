@@ -73,28 +73,28 @@ class Personal extends Cado
         return $resultado;
     }
 
-    public function nuevo($nombres, $apellidos, $id_AB, $dni, $direccion, $telefono, $correo, $tipo, $idempresa)
+    public function nuevo($nombres, $apellidos, $id_AB, $direccion, $tipo, $idempresa)
     {
         $pass       = md5('admin');
-        $sql        = "INSERT INTO persona(nombres, apellidos, id_AB, DNI, direccion, telefono) VALUES('$nombres', '$apellidos', '$id_AB', '$dni', '$direccion', '$telefono')";
+        $sql        = "INSERT INTO persona(nombres, apellidos, id_AB, direccion) VALUES('$nombres', '$apellidos', '$id_AB', $direccion')";
         $resultado  = Cado::ejecutarConsulta($sql);
-        $sql2       = "INSERT INTO usuario(nombre, pass, email, estado, tipo, idpersona, idempresa) VALUES('$dni', '$pass', '$correo', 1, $tipo, (SELECT MAX(id) FROM persona), $idempresa)";
+        $sql2       = "INSERT INTO usuario(nombre, pass, estado, tipo, idpersona, idempresa) VALUES('$id_AB', '$pass', 1, $tipo, (SELECT MAX(id) FROM persona), $idempresa)";
         $resultado2 = Cado::ejecutarConsulta($sql2);
         return $resultado2;
     }
 
     public function cargardatospersona($id, $idempresa)
     {
-        $sql       = "SELECT p.*, u.email FROM persona p INNER JOIN usuario u ON p.id=u.idpersona WHERE p.id=$id AND u.idempresa = $idempresa";
+        $sql       = "SELECT p.*, u.email, u.tipo FROM persona p INNER JOIN usuario u ON p.id=u.idpersona WHERE p.id=$id AND u.idempresa = $idempresa";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }
 
-    public function modificar($id, $nombres, $apellidos, $id_AB, $dni, $direccion, $telefono, $correo, $tipo, $idempresa)
+    public function modificar($id, $nombres, $apellidos, $id_AB, $direccion, $tipo, $idempresa)
     {
-        $sql        = "UPDATE persona SET nombres='$nombres', apellidos='$apellidos', id_AB='$id_AB', dni='$dni', direccion='$direccion', telefono='$telefono' WHERE id=$id";
+        $sql        = "UPDATE persona SET nombres='$nombres', apellidos='$apellidos', id_AB='$id_AB', direccion='$direccion' WHERE id=$id";
         $resultado  = Cado::ejecutarConsulta($sql);
-        $sql2       = "UPDATE usuario SET nombre='$dni', email='$correo' WHERE idpersona=$id AND idempresa = $idempresa";
+        $sql2       = "UPDATE usuario SET nombre='$id_AB' WHERE idpersona=$id AND idempresa = $idempresa";
         $resultado2 = Cado::ejecutarConsulta($sql2);
         return $resultado2;
     }
@@ -104,9 +104,6 @@ class Personal extends Cado
         $sql        = "DELETE FROM usuario WHERE idpersona=$id AND idempresa = $idempresa";
         $resultado  = Cado::ejecutarConsulta($sql);
         return $resultado;
-        //$sql2       = "DELETE FROM persona WHERE id=$id";
-        //$resultado2 = Cado::ejecutarConsulta($sql2);
-        //return $resultado2;
     }
 
     public function cambiarestadousuario($id, $estado, $idempresa)
@@ -130,22 +127,6 @@ class Personal extends Cado
         $clavenueva = md5($clavenueva);
         $sql        = "UPDATE usuario SET pass='$clavenueva' WHERE id=" . $_SESSION['id'] . " AND idempresa = " . $idempresa;
         $resultado  = Cado::ejecutarConsulta($sql);
-        return $resultado;
-    }
-
-    //Para nuevo resumen de asignacion
-
-    public function NuevoResAsignacion($idpersona) {
-        $sql       = "INSERT INTO resasignacion(idtecnico) VALUES($idpersona)";
-        $resultado = Cado::ejecutarConsulta($sql);
-    }
-
-    public function obtenerTecnicos($idempresa)
-    {
-        $sql  = "SELECT persona.id, CONCAT(id_AB, ' - ', nombres, ' ', apellidos) AS nombre
-            FROM usuario INNER JOIN persona ON usuario.idpersona = persona.id
-            WHERE usuario.tipo=2 AND idempresa = $idempresa";
-        $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }
 

@@ -95,11 +95,9 @@ if ($accion == "ListaPersonal") {
             foreach ($rs as $row) {
                 $retorno .= '<tr id="' . $row['idpersona'] . '">';
                 $retorno .= '<td>' . $row['nombre'] . '</td>';
-                $retorno .= '<td>' . $row['DNI'] . '</td>';
                 $retorno .= '<td>' . $row['id_AB'] . '</td>';
                 $retorno .= '<td>' . $row['direccion'] . '</td>';
                 $retorno .= '<td>' . $row['telefono'] . '</td>';
-                $retorno .= '<td>' . $row['email'] . '</td>';
                 $retorno .= '<td>' . $row['tipo'] . '</td>';
                 $retorno .= '<td>
                             <div class="row">
@@ -162,14 +160,11 @@ if ($accion == "nuevo") {
     $nombres   = $_POST['nombres'];
     $apellidos = $_POST['apellidos'];
     $id_AB     = $_POST['id_AB'];
-    $DNI       = $_POST['DNI'];
     $direccion = $_POST['direccion'];
-    $telefono  = $_POST['telefono'];
-    $correo    = $_POST['email'];
     $tipo      = $_GET['tipo'];
     //tipo = 2 (técnico)
     try {
-        $rs = $personal->nuevo($nombres, $apellidos, $id_AB, $DNI, $direccion, $telefono, $correo, $tipo, $idempresa);
+        $rs = $personal->nuevo($nombres, $apellidos, $id_AB, $direccion, $tipo, $idempresa);
         if ($rs->rowCount() > 0) {
             if($tipo == '2') {
                 $rs = $personal->DatosPersona($id_AB, $idempresa);
@@ -177,10 +172,8 @@ if ($accion == "nuevo") {
                     $idpersona = $row['id'];
                     break;
                 }
-                //Creo Resumen Asignacion
-                $rs = $personal->NuevoResAsignacion($idpersona);
             }
-            echo '<p style="color: green;"><i class="icon-check"></i> Persona ' . $idpersona . ' con DNI ' . $DNI . ' registrado Correctamente.</p><p style="color: green;"><i class="icon-check"></i> Usuario ' . $DNI . ' registrado Correctamente.</p><p style="color: green;"><i class="icon-check"></i> La contraseña inicial para este usuario es "admin".</p>';
+            echo '<p style="color: green;"><i class="icon-check"></i> Persona registrada Correctamente.</p><p style="color: green;"><i class="icon-check"></i> Usuario registrado Correctamente.</p><p style="color: green;"><i class="icon-check"></i> La contraseña inicial para este usuario es "admin".</p>';
         } else {
             echo '<p style="color: red;"><i class="icon-check"></i> No se pudo Registrar.</p>';
         }
@@ -193,16 +186,13 @@ if ($accion == "modificar") {
     $nombres   = $_POST['nombres'];
     $apellidos = $_POST['apellidos'];
     $id_AB     = $_POST['id_AB'];
-    $DNI       = $_POST['DNI'];
     $direccion = $_POST['direccion'];
-    $telefono  = $_POST['telefono'];
-    $correo    = $_POST['email'];
     $tipo      = $_GET['tipo'];
     $id        = $_GET['id'];
     try {
-        $rs = $personal->modificar($id, $nombres, $apellidos, $id_AB, $DNI, $direccion, $telefono, $correo, $tipo, $idempresa);
+        $rs = $personal->modificar($id, $nombres, $apellidos, $id_AB, $direccion, $tipo, $idempresa);
         if ($rs) {
-            echo '<p style="color: green;"><i class="icon-check"></i> Persona con DNI ' . $DNI . ' editada Correctamente.</p><p style="color: green;"><i class="icon-check"></i> Usuario ' . $DNI . ' editado Correctamente.</p><p style="color: green;"><i class="icon-check"></i> Al editar el DNI, el nombre de usuario se modificará también.</p>';
+            echo '<p style="color: green;"><i class="icon-check"></i> Persona editada Correctamente.</p><p style="color: green;"><i class="icon-check"></i> Usuario editado Correctamente.</p><p style="color: green;"><i class="icon-check"></i> Al editar el DNI, el nombre de usuario se modificará también.</p>';
         }
     } catch (Exception $e) {
         echo '<p style="color: red;"><i class="icon-check"></i> No se pudo Editar.</p>';
@@ -268,25 +258,6 @@ if ($accion == "cambiarclave") {
             echo 'Tu clave se cambió correctamente.';
         } else {
             echo 'Tu clave no pudo cambiarse.';
-        }
-    } catch (Exception $e) {
-        echo 'Error inesperado';
-    }
-}
-
-if ($accion == "obtenerTecnicos") {
-    try {
-        $retorno = '';
-        $rs = $personal->obtenerTecnicos($idempresa);
-        if ($rs) {
-            $retorno .= '<select class="form-control input-sm" name="idtecnico" id="idtecnico">';
-            foreach ($rs as $row) {
-                $retorno .= '<option value="' . $row['id'] . '">' . $row['nombre'] . '</option>';
-            }
-            $retorno .= '</select>';
-            echo $retorno;
-        } else {
-            echo 'Error inesperado';
         }
     } catch (Exception $e) {
         echo 'Error inesperado';
