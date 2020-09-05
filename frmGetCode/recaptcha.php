@@ -37,8 +37,8 @@ if($_POST['google-response-token']) {
         if ($celulares->rowCount() > 0) {
           //ENVÍO MENSAJE A LOS NÚMEROS AFILIADOS A ESTE CLIENTE CON TWILIO
           foreach ($celulares as $row) {
-            $estado = "ENVIADO";
-            $client->messages->create(
+            $estado = "1";
+            /*$client->messages->create(
                 // the number you'd like to send the message to
                 //'+51' . $row['numero'],
                 '+51956930067',
@@ -48,7 +48,7 @@ if($_POST['google-response-token']) {
                     // the body of the text message you'd like to send
                     'body' => $mensTwilio
                 ]
-            );
+            );*/
             //REGISTRO EN BASE DE DATOS EL ENVÍO DEL MENSAJE
             $nuevomensaje = $oTelefono->nuevoMensaje($idpersona, $nombre, $mensTwilio, $row['numero'], $estado);
           } 

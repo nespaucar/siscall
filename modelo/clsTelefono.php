@@ -58,8 +58,7 @@ class Telefono extends Cado
 
     public function nuevoMensaje($idpersona, $nombre, $mensaje, $numero, $estado)
     {
-        session_start();
-        $sql       = "INSERT INTO mensaje(idpersona, nombre, encargado_id, numero, mensaje, estado, created_at) VALUES($idpersona, $nombre, " . $_SESSION['id'] . ", '$numero', '$mensaje', $estado, '" . date("Y-m-d H:i:s") . "')";
+        $sql       = "INSERT INTO mensaje(idpersona, nombre, encargado_id, numero, mensaje, estado, created_at) VALUES($idpersona, '$nombre', 1, '$numero', '$mensaje', '$estado', '" . date("Y-m-d H:i:s") . "')";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }
