@@ -42,7 +42,7 @@ class Telefono extends Cado
     }
 
     public function cargarNumeros($id) {
-        $sql  = "SELECT t.id AS idtelefono, t.numero
+        $sql  = "SELECT t.id, t.numero AS idtelefono, t.numero
             FROM telefono t
             WHERE t.persona_id=$id";
         $resultado = Cado::ejecutarConsulta($sql);

@@ -27,7 +27,7 @@
                 <div class="form-group">
                     <label for="codigo">Código</label>
                     <hr>
-                    <input type="codigo" class="form-control" id="codigo" name="codigo" placeholder="Ingresa tu código de cliente">
+                    <input type="codigo" class="form-control" id="codigo" name="codigo" maxlength="6" placeholder="Ingresa tu código de cliente">
                 </div>
                 <br>
                 <input type="hidden" name="google-response-token" id="google-response-token">
@@ -50,6 +50,15 @@
     });
     var imgCargando = "<img src='../assets/img/cargando.gif' width='100' height='100'/>";
     function enviarForm() {
+        if($("#codigo").val().length < 6) {
+            $("#message").html("<div class='alert alert-danger'> El código debe tener 6 caracteres. </div>");
+            $("#codigo").focus();
+        } else {
+            enviarForm2();
+        }
+    }
+
+    function enviarForm2() {
         var form = $('#loginForm');
         var url = form.attr('action');
         $.ajax({
@@ -57,17 +66,18 @@
             url: 'recaptcha.php',
             data: form.serialize(),
             beforeSend: function() {
-                $('#message').append(imgCargando);
+                $('#message').html(imgCargando);
                 $('#btnSubmit').attr("disabled", true);
                 $('#codigo').attr("readonly", true);
             },
             success: function(data) {
                 $('#message').empty();
-                $('#message').append(data);
-                setTimeout(recargar, 2500);
+                $('#message').html(data);
+                //setTimeout(recargar, 2500);
             }
         });
     }
+
     function recargar() {
         window.location.reload();
     }

@@ -1,10 +1,15 @@
 <?php
-
+ini_set("display_errors", 1);
+error_reporting(E_ALL);
 include "../modelo/clsTelefono.php";
 include "../modelo/clsPersonal.php";
 include("keys.php");
+require '../twilio-php-main/src/Twilio/autoload.php';
+use Twilio\Rest\Client;
+
 $oPersona = new Personal();
 $oTelefono = new Telefono();
+$client = new Client(TWILIO_ID, TWILIO_TOKEN);
 
 if($_POST['google-response-token']) {
   $googleToken = $_POST['google-response-token'];
@@ -17,7 +22,7 @@ if($_POST['google-response-token']) {
     $mensaje = '';
     //COMPRUEBO EXISTENCIA DE CÓDIGO
     $codigo = $_POST['codigo'];
-    try {
+    //try {
       $rs = $oPersona->comprobarExistenciaCodigo($codigo);
       if ($rs->rowCount() > 0) {
         //ENVÍO LOS MENSAJES
@@ -28,6 +33,19 @@ if($_POST['google-response-token']) {
         $celulares = $oTelefono->cargarNumeros($idpersona);
         if ($celulares->rowCount() > 0) {
           //ENVÍO MENSAJE A LOS NÚMEROS AFILIADOS A ESTE CLIENTE CON TWILIO
+          foreach ($celulares as $row) {
+            $client->messages->create(
+                // the number you'd like to send the message to
+                //'+51' . $row['numero'],
+                // Alex -> '+51956930067',
+                [
+                    // A Twilio phone number you purchased at twilio.com/console
+                    'from' => '+15124563240',
+                    // the body of the text message you'd like to send
+                    'body' => 'Prueba Envío de Mensajes'
+                ]
+            );
+          }            
           //REGISTRO EN BASE DE DATOS EL ENVÍO DEL MENSAJE
         } else {
           //NO EXISTEN CELULARES PARA ESTE CLIENTE
@@ -36,12 +54,12 @@ if($_POST['google-response-token']) {
       } else {
         $envio = 2;
       }
-    } catch (Exception $e) {
-      $envio = 3;
-    }
+    //} catch (Exception $e) {
+    //  $envio = 3;
+    //}
 
     if($envio === 1) {
-      $mensaje = "<div class='alert alert-success'> Se enviaron los mensajes correctamente </div>";
+      $mensaje = "<div class='alert alert-success'> Se enviaron los mensajes correctamente. </div>";
     } else if($envio === 2) {
       $mensaje = "<div class='alert alert-danger'> Código no se encuentra en nuestros registros. </div>";
     } else if($envio === 3) {
