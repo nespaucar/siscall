@@ -47,7 +47,7 @@ class Personal extends Cado
             CONCAT(p.nombres, ' ', p.apellidos) AS nombre, p.id_AB, p.DNI, p.direccion, p.telefono
             FROM usuario u INNER JOIN persona p ON u.idpersona = p.id
             WHERE u.tipo=$tipo 
-            AND (tipo $like OR CONCAT(p.nombres, ' ', p.apellidos) $like OR DNI $like OR direccion $like OR telefono $like OR u.email $like)
+            AND (tipo $like OR CONCAT(p.nombres, ' ', p.apellidos) $like OR direccion $like)
             AND u.idempresa = $idempresa LIMIT $limite";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
@@ -155,5 +155,30 @@ class Personal extends Cado
             $this->comprobarClave($clave, $permitted_chars);
         }
         return $clave;
+    }
+
+    public function obtenerpersonas($idempresa) {
+        $sql  = "SELECT p.id, 
+            CASE
+                WHEN u.tipo=1 THEN 'ADMINISTRADOR' WHEN u.tipo=2 THEN 'CLIENTE'
+            END AS tipo,
+            CONCAT(p.nombres, ' ', p.apellidos) AS nombre, p.id_AB AS codigo
+            FROM persona p
+            INNER JOIN usuario u ON p.id = u.idpersona
+            WHERE u.idempresa = $idempresa";
+        $resultado = Cado::ejecutarConsulta($sql);
+        return $resultado;
+    }
+
+    public function cargarDatosPersonaC($id) {
+        $sql  = "SELECT p.id_AB AS codigo, 
+            CASE
+                WHEN u.tipo=1 THEN 'ADMINISTRADOR' WHEN u.tipo=2 THEN 'CLIENTE'
+            END AS tipo
+            FROM persona p
+            INNER JOIN usuario u ON p.id = u.idpersona
+            AND p.id = $id";
+        $resultado = Cado::ejecutarConsulta($sql);
+        return $resultado;
     }
 }

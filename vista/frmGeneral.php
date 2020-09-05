@@ -121,7 +121,7 @@ ini_set('display_errors', '1');
 	                        	</a>
 	                        </li>
 	                        <li class="lista">
-	                        	<a href="javascript:void(0)" onclick="link('frmCelulares.php')">
+	                        	<a href="javascript:void(0)" onclick="link('frmTelefonos.php')">
 	                        		<i class="glyphicon glyphicon-wrench"></i> Celulares
 	                        	</a>
 	                        </li>

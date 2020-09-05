@@ -303,3 +303,23 @@ if ($accion == "generarClave") {
         echo 'Error inesperado';
     }
 }
+
+if ($accion == "cargarDatosPersona") {
+    $id = $_GET['id'];
+    try {
+        $rs = $personal->cargarDatosPersonaC($id);
+        if ($rs->rowCount() > 0) {
+            foreach ($rs as $row) {
+                $jsondata = array(
+                    'codigo' => $row['codigo'],
+                    'tipo' => $row['tipo'],
+                );
+            }            
+            echo json_encode($jsondata, JSON_FORCE_OBJECT);
+        } else {
+            echo 'Error inesperado';
+        }
+    } catch (Exception $e) {
+        echo 'Error inesperado';
+    }
+}

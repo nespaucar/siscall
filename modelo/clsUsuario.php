@@ -47,7 +47,7 @@ class Usuario extends Cado
             CONCAT(p.nombres, ' ', p.apellidos) AS nombre, p.id_AB, p.DNI, p.direccion, p.telefono
             FROM usuario u INNER JOIN persona p ON u.idpersona = p.id
             WHERE u.tipo=$tipo 
-            AND (tipo $like OR CONCAT(p.nombres, ' ', p.apellidos) $like OR DNI $like OR direccion $like OR telefono $like OR u.email $like)
+            AND (tipo $like OR CONCAT(p.nombres, ' ', p.apellidos) $like OR direccion $like)
             AND u.idempresa = $idempresa LIMIT $limite";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
