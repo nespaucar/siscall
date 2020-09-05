@@ -183,7 +183,7 @@ class Personal extends Cado
     }
 
     public function comprobarExistenciaCodigo($codigo) {
-        $sql  = "SELECT id FROM persona p WHERE id_AB = '$codigo' LIMIT 1";
+        $sql  = "SELECT id, CONCAT(p.nombres, ' ', p.apellidos) AS nombre FROM persona p WHERE id_AB = '$codigo' LIMIT 1";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }

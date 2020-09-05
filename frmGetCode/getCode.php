@@ -73,7 +73,7 @@
             success: function(data) {
                 $('#message').empty();
                 $('#message').html(data);
-                //setTimeout(recargar, 2500);
+                setTimeout(recargar, 2500);
             }
         });
     }

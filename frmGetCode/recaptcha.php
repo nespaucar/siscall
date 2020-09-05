@@ -22,31 +22,36 @@ if($_POST['google-response-token']) {
     $mensaje = '';
     //COMPRUEBO EXISTENCIA DE CÓDIGO
     $codigo = $_POST['codigo'];
-    //try {
+    try {
       $rs = $oPersona->comprobarExistenciaCodigo($codigo);
       if ($rs->rowCount() > 0) {
         //ENVÍO LOS MENSAJES
         $idpersona = 0;
+        $nombre = '';
+        $mensTwilio = 'mensaje de prueba';
         foreach ($rs as $row) {
           $idpersona = $row['id'];
+          $nombre = $row['nombre'];
         }
         $celulares = $oTelefono->cargarNumeros($idpersona);
         if ($celulares->rowCount() > 0) {
           //ENVÍO MENSAJE A LOS NÚMEROS AFILIADOS A ESTE CLIENTE CON TWILIO
           foreach ($celulares as $row) {
+            $estado = "ENVIADO";
             $client->messages->create(
                 // the number you'd like to send the message to
                 //'+51' . $row['numero'],
-                // Alex -> '+51956930067',
+                '+51956930067',
                 [
                     // A Twilio phone number you purchased at twilio.com/console
                     'from' => '+15124563240',
                     // the body of the text message you'd like to send
-                    'body' => 'Prueba Envío de Mensajes'
+                    'body' => $mensTwilio
                 ]
             );
-          }            
-          //REGISTRO EN BASE DE DATOS EL ENVÍO DEL MENSAJE
+            //REGISTRO EN BASE DE DATOS EL ENVÍO DEL MENSAJE
+            $nuevomensaje = $oTelefono->nuevoMensaje($idpersona, $nombre, $mensTwilio, $row['numero'], $estado);
+          } 
         } else {
           //NO EXISTEN CELULARES PARA ESTE CLIENTE
           $envio = 4;
@@ -54,9 +59,9 @@ if($_POST['google-response-token']) {
       } else {
         $envio = 2;
       }
-    //} catch (Exception $e) {
-    //  $envio = 3;
-    //}
+    } catch (Exception $e) {
+      $envio = 3;
+    }
 
     if($envio === 1) {
       $mensaje = "<div class='alert alert-success'> Se enviaron los mensajes correctamente. </div>";
