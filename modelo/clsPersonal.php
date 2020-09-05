@@ -177,7 +177,13 @@ class Personal extends Cado
             END AS tipo
             FROM persona p
             INNER JOIN usuario u ON p.id = u.idpersona
-            AND p.id = $id";
+            WHERE p.id = $id";
+        $resultado = Cado::ejecutarConsulta($sql);
+        return $resultado;
+    }
+
+    public function comprobarExistenciaCodigo($codigo) {
+        $sql  = "SELECT id FROM persona p WHERE id_AB = '$codigo' LIMIT 1";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }

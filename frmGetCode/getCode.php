@@ -23,7 +23,7 @@
         </header>
         <hr>
         <section class="container">
-            <form  class="form-signin" method="post" id="loginForm" style="background-color: white; border-radius: 20px;">
+            <form  class="form-signin" method="post" id="loginForm" onsubmit="return false;" style="background-color: white; border-radius: 20px;">
                 <div class="form-group">
                     <label for="codigo">Código</label>
                     <hr>
@@ -59,6 +59,7 @@
             beforeSend: function() {
                 $('#message').append(imgCargando);
                 $('#btnSubmit').attr("disabled", true);
+                $('#codigo').attr("readonly", true);
             },
             success: function(data) {
                 $('#message').empty();
