@@ -18,7 +18,7 @@ include "seguridad.php";
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-lg-11">
-                        <h4><i class="glyphicon glyphicon-user"></i> &nbsp;Personas</h4>
+                        <h4 class="titulo"><i class="glyphicon glyphicon-user"></i> &nbsp;Personas</h4>
                     </div>
                     <div class="col-lg-1">
                         <h4><a href="#" class="btn btn-success btn-sm btn-line btn-rect" id="nuevo" data-opcion="0" data-bean="Personas"><i class="icon-plus"></i> Crear</a></h4>

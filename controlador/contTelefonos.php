@@ -142,3 +142,22 @@ if ($accion == "anadirCelular") {
         echo '<p style="color: red;"><i class="icon-check"></i>No se pudo registrar el número.</p>';
     }
 }
+
+if ($accion == "nuevoConfiguracionMensaje") {
+    $mensaje  = $_GET['mensaje'];
+    try {
+        $rs = $otelefono->nuevoConfiguracionMensaje($mensaje);
+        if ($rs) {
+            echo '<p style="color: green;"><i class="icon-check"></i> Mensaje configurado correctamente.</p>';
+        } else {
+            echo '<p style="color: red;"><i class="icon-check"></i>No se pudo actualizar el mensaje.</p>';
+        }
+            
+    } catch (Exception $e) {
+        echo '<p style="color: red;"><i class="icon-check"></i>No se pudo actualizar el mensaje.</p>';
+    }
+}
+
+if ($accion == "inicializarConfiguracionMensaje") {
+    echo $otelefono->obtenerConfiguracionMensaje();
+}

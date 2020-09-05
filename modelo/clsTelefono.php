@@ -58,8 +58,28 @@ class Telefono extends Cado
 
     public function nuevoMensaje($idpersona, $nombre, $mensaje, $numero, $estado)
     {
-        $sql       = "INSERT INTO mensaje(idpersona, nombre, encargado_id, numero, mensaje, estado, created_at) VALUES($idpersona, '$nombre', 1, '$numero', '$mensaje', '$estado', '" . date("Y-m-d H:i:s") . "')";
+        $sql       = 'INSERT INTO mensaje(idpersona, nombre, encargado_id, numero, mensaje, estado, created_at) VALUES(' . $idpersona . ', "' . $nombre . '", 1, "' . $numero . '", "' . $mensaje . '", "' . $estado . '", "' . date("Y-m-d H:i:s") . '")';
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
+    }
+
+    public function nuevoConfiguracionMensaje($mensaje)
+    {
+        $sql       = 'INSERT INTO configuracion(mensaje, created_at) VALUES("' . $mensaje . '", "' . date("Y-m-d H:i:s") . '")';
+        $resultado = Cado::ejecutarConsulta($sql);
+        return $resultado;
+    }
+
+    public function obtenerConfiguracionMensaje()
+    {
+        $mensaje   = "null";
+        $sql       = 'SELECT mensaje FROM configuracion ORDER BY id DESC LIMIT 1';
+        $resultado = Cado::ejecutarConsulta($sql);
+        if($resultado->rowCount() > 0) {
+            foreach ($resultado as $row) {
+                $mensaje = $row["mensaje"];
+            }
+        }
+        return $mensaje;
     }
 }

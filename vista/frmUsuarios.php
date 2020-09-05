@@ -18,7 +18,7 @@ include "seguridad.php";
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-lg-11">
-                        <h4><i class="glyphicon glyphicon-user"></i> &nbsp;Usuarios</h4>
+                        <h4 class="titulo"><i class="glyphicon glyphicon-user"></i> &nbsp;Usuarios</h4>
                     </div>
                 </div>
             </div>

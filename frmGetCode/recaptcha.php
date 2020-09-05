@@ -28,7 +28,6 @@ if($_POST['google-response-token']) {
         //ENVÍO LOS MENSAJES
         $idpersona = 0;
         $nombre = '';
-        $mensTwilio = 'mensaje de prueba';
         foreach ($rs as $row) {
           $idpersona = $row['id'];
           $nombre = $row['nombre'];
@@ -37,20 +36,23 @@ if($_POST['google-response-token']) {
         if ($celulares->rowCount() > 0) {
           //ENVÍO MENSAJE A LOS NÚMEROS AFILIADOS A ESTE CLIENTE CON TWILIO
           foreach ($celulares as $row) {
-            $estado = "1";
-            /*$client->messages->create(
+            $estado = "No Enviado";
+            $numero = $row['numero'];
+            $mensTwilio = $oTelefono->obtenerConfiguracionMensaje();
+            $messageTwilio = $client->messages->create(
                 // the number you'd like to send the message to
-                //'+51' . $row['numero'],
-                '+51956930067',
+                '+51' . $numero,
+                //'+51956930067',
                 [
                     // A Twilio phone number you purchased at twilio.com/console
                     'from' => '+15124563240',
                     // the body of the text message you'd like to send
                     'body' => $mensTwilio
                 ]
-            );*/
-            //REGISTRO EN BASE DE DATOS EL ENVÍO DEL MENSAJE
-            $nuevomensaje = $oTelefono->nuevoMensaje($idpersona, $nombre, $mensTwilio, $row['numero'], $estado);
+            );
+            $estado = $messageTwilio->status;
+            //REGISTRO EN BASE DE DATOS EL ENVIO DEL MENSAJE
+            $nuevomensaje = $oTelefono->nuevoMensaje($idpersona, $nombre, $mensTwilio, $numero, $estado);
           } 
         } else {
           //NO EXISTEN CELULARES PARA ESTE CLIENTE
