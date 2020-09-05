@@ -16,8 +16,8 @@ $personas = $opersona->obtenerpersonas($_SESSION['idempresa']);
         $('#persona').chosen({
             width: "100%",
         });
-        <?php if($_GET['accion'] == 'modificar') { ?>
-            //$('#persona').val('<?php echo $idpersona; ?>');
+        <?php if($_GET['accion'] === 'modificar') { ?>
+            cargarDatosPersona('<?php echo $_GET["id"]; ?>');
         <?php } ?>        
 	});
 
@@ -27,12 +27,6 @@ $personas = $opersona->obtenerpersonas($_SESSION['idempresa']);
     	if($(this).val() !== "") {
     		cargarDatosPersona($(this).val());
     	}        
-    });
-
-    $(document).on('click', '#anadirCelular', function(e) {
-    	e.preventDefault();
-    	e.stopImmediatePropagation();
-        //anadirCelular($("#celular").val());
     });
 
     function cargarDatosPersona(id) {
@@ -59,6 +53,40 @@ $personas = $opersona->obtenerpersonas($_SESSION['idempresa']);
 	        }
 	    });
     }
+
+    function anadirCelular() {
+    	var celular = $("#celular").val();
+    	var mensaje = "";
+    	if($("#persona").val() === "") {
+    		mensaje += '<p style="color: red;"><i class="icon-check"></i> Debes escoger a una persona primero.</p>';
+	    	$('#mensajes').html(mensaje);
+    	} else {
+    		if(celular.length == 0) {
+	    		mensaje += '<p style="color: red;"><i class="icon-check"></i> No puedes registrar un número vacío.</p>';
+	    		$('#mensajes').html(mensaje);
+	    		$('#celular').focus();
+	    	} else if(celular.length < 9) {
+	    		mensaje += '<p style="color: red;"><i class="icon-check"></i> El número debe tener 9 dígitos.</p>';
+	    		$('#mensajes').html(mensaje);
+	    		$('#celular').focus();
+	    	} else if(celular.length == 9) {
+	    		anadirCelular2(celular);
+	    	}
+    	}	    	    	
+    }
+
+    function anadirCelular2(celular) {
+    	$.ajax({
+	        url: '../controlador/contTelefonos.php?accion=anadirCelular&telefono=' + celular + '&idpersona=' + $("#persona").val(),
+	        type: 'GET',
+	        success: function(a) {
+    			$('#mensajes').html(a);
+	            cargarNumeros($("#persona").val());
+	            $('#celular').val("");
+	            $('#celular').focus();
+	        }
+	    });
+    }
 </script>
 
 <div class="col-lg-12">
@@ -73,12 +101,16 @@ $personas = $opersona->obtenerpersonas($_SESSION['idempresa']);
         <form role="form" id="formulario" onsubmit="return false;">
         	<div class="form-group input-group">
                 <span class="input-group-addon">Persona</span>
-                <select name="persona" id="persona" class="form-control input-sm" value="">
+                <select name="persona" id="persona" class="form-control input-sm chzn-select">
                 	<option value="">Selecciona una persona...</option>
                     <?php  
                         if($personas->rowCount() != 0) {
                             foreach ($personas as $persona) {
-                                echo '<option value="' . $persona['id'] . '">' . $persona['nombre'] . '</option>';
+                                if($_GET['id'] == $persona['id']) { 
+                                    echo '<option selected value="' . $persona['id'] . '">' . $persona['nombre'] . '</option>';
+                                } else {
+                                    echo '<option value="' . $persona['id'] . '">' . $persona['nombre'] . '</option>';
+                                }
                             }
                         } else {
                             echo '<option value="0">No hay personas registradas.</option>';
@@ -103,8 +135,8 @@ $personas = $opersona->obtenerpersonas($_SESSION['idempresa']);
 	        </div>            
             <div class="form-group input-group">
                 <span class="input-group-addon">Celular</span>
-                <input name="celular" id="celular" class="form-control input-sm">
-                <span class="input-group-addon" style="cursor: pointer; background-color: green; color: white;" id="anadirCelular">+ Añadir</span>
+                <input name="celular" id="celular" maxlength="9" class="form-control input-sm">
+                <span class="input-group-addon" style="cursor: pointer; background-color: green; color: white;" onclick="anadirCelular();">+ Añadir</span>
             </div>
 
             <div class="row">

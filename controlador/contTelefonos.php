@@ -44,14 +44,13 @@ if ($accion == "ListaTelefonos") {
                             <div class="row">
                                 <div class="col-sm-6 text-center" style="margin: 0; padding: 0">
                                     <div id="us' . $row['idusuario'] . '">
-                                        <a href="#" class="btnPropUsuario btn btn-primary btn-xs" data-nombre="' . $row['nombre'] . '" data-id="' . $row['idusuario'] . '" data-estado="' . $row['estado'] . '" data-toggle="modal" data-target="#propUsuModal">
-                                            <i class="icon-user"></i>
+                                        <a href="#" class="btn btn-xs btn-success modificar" data-opcion="0" data-bean="Telefonos" data-id="' . $row['idpersona'] . '"><i class="glyphicon glyphicon-eye-open"></i> Ver
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 text-center" style="margin: 0; padding: 0">
                                     <div id="us' . $row['idusuario'] . '">
-                                        <a href="#" class="eliminarBean btn btn-xs btn-danger" data-clase="Telefonos" data-table="al ' . substr($usuario, 0, strlen($usuario) - 1) . '" data-nombre="' . $row['nombre'] . '" data-id="' . $row['idpersona'] . '" data-toggle="modal" data-target="#deleteModal"><i class="icon-remove"></i>
+                                        <a href="#" class="eliminarBean btn btn-xs btn-danger" data-clase="Telefonos" data-table="al Teléfono" data-nombre="' . $row['numero'] . '" data-id="' . $row['idtelefono'] . '" data-toggle="modal" data-target="#deleteModal"><i class="icon-remove"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -122,5 +121,24 @@ if ($accion == "eliminar") {
         }
     } catch (Exception $e) {
         echo '<h4 class="titulo modal-title"><b style="color:red;">No se pudo eliminar.</b></h4>';
+    }
+}
+
+if ($accion == "anadirCelular") {
+    $telefono  = $_GET['telefono'];
+    $idpersona = $_GET['idpersona'];
+    try {
+        $rs = $otelefono->comprobarNumero($telefono);
+        if ($rs) {
+            $rs = $otelefono->nuevo($telefono, $idpersona);
+            if ($rs) {
+                echo '<p style="color: green;"><i class="icon-check"></i> Número añadido correctamente.</p>';
+            }
+        } else {
+            echo '<p style="color: red;"><i class="icon-check"></i>El número ' . $telefono . ' ya está registrado. No puede tener duplicidad.</p>';
+        }
+            
+    } catch (Exception $e) {
+        echo '<p style="color: red;"><i class="icon-check"></i>No se pudo registrar el número.</p>';
     }
 }

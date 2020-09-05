@@ -10,7 +10,7 @@ ini_set('display_errors', '1');
 <html lang="en">
 	<head>
 	    <meta charset="UTF-8" />
-	    <title>Bienvenido | WPERU</title>
+	    <title>Bienvenido | SisCall</title>
 	    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 	    <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.css">
 	    <link rel="stylesheet" href="../assets/css/chosen.min.css">

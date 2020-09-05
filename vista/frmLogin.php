@@ -9,7 +9,7 @@ if (isset($_SESSION['nombre'])) {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>WPeru | Ingreso</title>
+  <title>SisCall | Ingreso</title>
   <link rel="icon" type="image/png" href="../assets/img/logo2.png" />
   <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="../assets/css/login.css" />
@@ -35,7 +35,7 @@ if (isset($_SESSION['nombre'])) {
     <div class="container">
     <div class="text-center">
       <div class="text-center">
-        <img src="../assets/img/logo2.png" class="mx-auto d-block" alt=" Logo" height="150" width="350" />
+        <img src="../assets/img/logo2.png" class="mx-auto d-block" alt=" Logo" height="150" width="550" />
       </div>
     </div>
     <div class="tab-content">

@@ -104,7 +104,7 @@ if ($_GET['accion'] == 'modificar') {
                 <span class="input-group-addon" id="anadir" style="cursor: pointer; background-color: green; color: white;">+ Añadir</span>
             </div>
             <div id="contentTelefonos"></div>
-            <div class="form-group input-group" id="parteAdminCelulares">
+            <div class="form-group input-group modificar" id="parteAdminCelulares" data-opcion="0" data-bean="Telefonos" data-id="<?php echo $id; ?>">
                 <a style="cursor: pointer;">Si quieres gestionar los celulares de esta persona da click aquí</a>
             </div>
             <div class="row">

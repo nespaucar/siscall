@@ -28,20 +28,10 @@ include "seguridad.php";
         	<div class="col-sm-6">
 				<div class="row">
 					<div class="col-sm-12">
-						<h1 style="font-family: 'Boogaloo', cursive;">DESCRIPCIÓN..</h1>
+						<h1 style="font-family: 'Boogaloo', cursive;">SISCALL - GARZASOFT</h1>
 						<h5 class="text-justify" style="font-family: 'Arima Madurai', cursive;">
-							<?php echo $_SESSION['descripcion'];?>
+							Sistema para Registro de llamadas.
 						</h5>
-					</div>
-				</div>
-				<br>
-				<div class="row">
-					<div class="col-sm-12 text-center">
-						<h6><?php echo $_SESSION['direccion'];?></h6>
-						<h6>Sucursal: <?php echo $_SESSION['sucursal'];?></h6>
-						<h6><a target="_blank" href="<?php echo $_SESSION['paginaweb'];?>"><?php echo $_SESSION['paginaweb'];?> </a></h6>
-						<h6><?php echo $_SESSION['correo'];?> Teléfono: <?php echo $_SESSION['telefono'];?></h6>
-						<h6>Copyright © 2009 All Rights Reserved <?php echo $_SESSION['nombreempresa'];?></h6>
 					</div>
 				</div>
 			</div>
@@ -50,15 +40,9 @@ include "seguridad.php";
 					<div class="col-sm-12">
 						<div class="row">
 		    				<div class="col-sm-12">
-		    					<h1 style="font-family: 'Boogaloo', cursive;">MISIÓN..</h1>
+		    					<h1 style="font-family: 'Boogaloo', cursive;">SISCALL - GARZASOFT</h1>
 		        				<h5 class="text-justify" style="font-family: 'Arima Madurai', cursive;">
-		        					<?php echo $_SESSION['mision'];?>
-		        				</h5>
-		        			</div>
-		        			<div class="col-sm-12">
-		    					<h1 style="font-family: 'Boogaloo', cursive;">VISIÓN..</h1>
-		        				<h5 class="text-justify" style="font-family: 'Arima Madurai', cursive;">
-									<?php echo $_SESSION['vision'];?>
+		        					Sistema para registro de llamadas.
 		        				</h5>
 		        			</div>
 		    			</div>

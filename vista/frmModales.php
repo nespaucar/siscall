@@ -117,7 +117,7 @@ $email  = $_SESSION['email'];
                 <div class="row">
                     <div class="col-md-9">
                         <button type="button" class="close"><font id="cargando"></font></button>
-                        <h3 class="modal-title" style="font-family: 'Oswald', sans-serif;"><b style="color:green;"><i class="icon-edit"></i> Propiedades del Usuario: <b id="usuario" style="color: red">Nespaucar</b></b></h3>
+                        <h3 class="modal-title" style="font-family: 'Oswald', sans-serif;"><b style="color:green;"><i class="icon-edit"></i> Propiedades de tu Usuario <b id="usuario" style="color: red"></b></b></h3>
                     </div>
                 </div>
             </div>
