@@ -39,6 +39,9 @@ if($_POST['google-response-token']) {
             $estado = "No Enviado";
             $numero = $row['numero'];
             $mensTwilio = $oTelefono->obtenerConfiguracionMensaje();
+            // procesamos mensaje
+            $mensTwilio = str_replace("[nombre]", $nombre, $mensTwilio);
+            $mensTwilio = str_replace("[numero]", $numero, $mensTwilio);
             $messageTwilio = $client->messages->create(
                 // the number you'd like to send the message to
                 '+51' . $numero,

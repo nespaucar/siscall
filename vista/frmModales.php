@@ -15,6 +15,11 @@ $email  = $_SESSION['email'];
         }).show();
       })
     }(jQuery));
+    $("#valortexto").keypress(function(tecla) {
+      if(tecla.charCode === 39 || tecla.charCode === 34) {
+        return false;
+      }
+    });
   });
 
   $(document).ready(function () {
@@ -32,10 +37,9 @@ $email  = $_SESSION['email'];
   // Lógica para la configucacion del mensaje 
   function addCampo() {
     var campoAdd = $("#campotexto").val();
-    var campo = $("#valortexto").val() + " '" + campoAdd + "'";
+    var campo = $("#valortexto").val() + " " + campoAdd + "";
     $("#valortexto").val(campo);
     $("#valortexto").focus();
-    campoPrevio();
   }
 
   function guardarMensaje() {
@@ -252,8 +256,8 @@ $email  = $_SESSION['email'];
             <div class="form-group input-group">
               <span class="input-group-addon">Campo</span>
               <select type="text" class="form-control input-sm" name="campotexto" id="campotexto">
-                <option value="$nombre">Nombre de cliente</option>
-                <option value="$numero">Numero de Telefono</option>
+                <option value="[nombre]">Nombre de cliente</option>
+                <option value="[numero]">Numero de Telefono</option>
               </select>
               <span class="input-group-addon" onclick="addCampo();" style="background-color: green; color: white; cursor: pointer;">+ Agregar</span>
             </div>
@@ -261,7 +265,7 @@ $email  = $_SESSION['email'];
             <div class="row">
               <div class="form-group">
                 <div class="col-md-12">
-                  <textarea type="text" class="form-control input-sm" style="font-size: 15px;" onkeyup="campoPrevio();" name="valortexto" id="valortexto" maxlength="300" rows="6"></textarea>
+                  <textarea type="text" class="form-control input-sm" style="font-size: 15px;" name="valortexto" id="valortexto" maxlength="300" rows="6"></textarea>
                 </div>
               </div>              
             </div>

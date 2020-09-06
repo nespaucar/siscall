@@ -83,7 +83,7 @@ ini_set('display_errors', '1');
 	                            <li><a href="#" id="btnPropUsuarioPropio" data-toggle="modal" data-target="#propUsuModal"><i class="icon-eye-close"></i> Cambiar Clave </a>
 	                            </li>
 	                            <li class="divider"></li>
-	                            <li onclick="inicializarConfiguracionMensaje();"><a href="#" id="btnConfiguracionMensaje" data-toggle="modal" data-target="#modalConfiguracionMensaje"><i class="glyphicon glyphicon-certificate"></i> Configuración de Mensaje </a>
+	                            <li onclick="inicializarConfiguracionMensaje(); $('#modalConfiguracionMensaje').modal({backdrop: 'static', keyboard: false});"><a href="#" id="btnConfiguracionMensaje" data-toggle="modal" data-target="#modalConfiguracionMensaje"><i class="glyphicon glyphicon-certificate"></i> Configuración de Mensaje </a>
 	                            </li>
 	                            <li class="divider"></li>
 	                            <li><a href="cerrar.php"><i class="icon-signout"></i> Cerrar Sesión </a>
