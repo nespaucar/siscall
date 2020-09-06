@@ -91,4 +91,16 @@ class Telefono extends Cado
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }
+
+    public function adminsprincipales() {
+        $sql  = "SELECT id FROM persona WHERE principal = 1";
+        $resultado = Cado::ejecutarConsulta($sql);
+        return $resultado;
+    }
+
+    public function cambiarestadoprincipal($id, $estado) {
+        $sql       = "UPDATE persona SET principal = $estado, updated_at = '" . date("Y-m-d H:i:s") . "' WHERE id = $id";
+        $resultado = Cado::ejecutarConsulta($sql);
+        return $resultado;
+    }
 }

@@ -47,10 +47,12 @@ $email  = $_SESSION['email'];
     if($("#valortexto").val() === "") {
       $('#mensajeConfigTexto').html('<p style="color: red;"><i class="icon-check"></i>No puedes dejar el mensaje vacio.</p>');
       $("#valortexto").focus();
+    } else if($("#mainadmin").val() === "") {
+      $('#mensajeConfigTexto').html('<p style="color: red;"><i class="icon-check"></i>Debes escoger un administrador para que le lleguen los mensajes.</p>');
     } else {
       $.ajax({
         type: "POST",
-        url: "../controlador/contTelefonos.php?accion=nuevoConfiguracionMensaje&mensaje=" + $("#valortexto").val(),
+        url: "../controlador/contTelefonos.php?accion=nuevoConfiguracionMensaje&mensaje=" + $("#valortexto").val() + "&principal=" + $("#mainadmin").val(),
         beforeSend: function() {
           $("#mensajeConfigTexto").html('<p style="color: blue;">Cargando...</p>');
         },
@@ -69,6 +71,21 @@ $email  = $_SESSION['email'];
       success: function(a) {
         $('#valortexto').val(a);
         $('#mensajeConfigTexto').html("");
+        $('#zonamainadmin').html("");
+        cargarSelectAdministradores();
+      }
+    });
+  }
+
+  function cargarSelectAdministradores() {
+    $.ajax({
+      type: "GET",
+      url: "../controlador/contPersonal.php?accion=cargarSelectAdministradores",
+      success: function(a) {
+        $('#zonamainadmin').html(a);
+        $('#mainadmin').chosen({
+          width: "100%",
+        });
       }
     });
   }
@@ -253,6 +270,7 @@ $email  = $_SESSION['email'];
         </div>
         <div class="modal-body">
           <form role="form" action="../controlador/contPersonal.php?accion=" onsubmit="return false;">
+            <div class="form-group input-group" id="zonamainadmin"></div>
             <div class="form-group input-group">
               <span class="input-group-addon">Campo</span>
               <select type="text" class="form-control input-sm" name="campotexto" id="campotexto">

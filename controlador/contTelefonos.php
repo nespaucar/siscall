@@ -144,15 +144,25 @@ if ($accion == "anadirCelular") {
 }
 
 if ($accion == "nuevoConfiguracionMensaje") {
-    $mensaje  = $_GET['mensaje'];
+    $mensaje   = $_GET['mensaje'];
+    $principal = $_GET['principal'];
     try {
         $rs = $otelefono->nuevoConfiguracionMensaje($mensaje);
         if ($rs) {
+            // ACTUALIZO EL ADMINISTRADOR PRINCIPAL
+            $adminsprin = $otelefono->adminsprincipales();
+            if($adminsprin->rowCount() > 0) {
+                foreach ($adminsprin as $row) {
+                    if($row['id'] !== $principal) {
+                        $otelefono->cambiarestadoprincipal($row['id'], "0");
+                    }
+                }
+            }
+            $otelefono->cambiarestadoprincipal($principal, "1");
             echo '<p style="color: green;"><i class="icon-check"></i> Mensaje configurado correctamente.</p>';
         } else {
             echo '<p style="color: red;"><i class="icon-check"></i>No se pudo actualizar el mensaje.</p>';
-        }
-            
+        }            
     } catch (Exception $e) {
         echo '<p style="color: red;"><i class="icon-check"></i>No se pudo actualizar el mensaje.</p>';
     }

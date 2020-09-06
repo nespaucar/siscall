@@ -323,3 +323,27 @@ if ($accion == "cargarDatosPersona") {
         echo 'Error inesperado';
     }
 }
+
+if ($accion == "cargarSelectAdministradores") {
+    $mensaje = '<span class="input-group-addon">Administrador</span>
+                <select name="mainadmin" id="mainadmin" class="form-control input-sm chzn-select">
+                <option value="">Selecciona una persona...</option>';
+    try {
+        $rs = $personal->cargarSelectAdministradores();
+        if ($rs->rowCount() > 0) {
+            foreach ($rs as $row) {
+                if($row['principal'] === "1") {
+                    $mensaje .= '<option selected value="' . $row['id'] . '">' . $row['nombre'] . '</option>';
+                } else {
+                    $mensaje .= '<option value="' . $row['id'] . '">' . $row['nombre'] . '</option>';
+                }
+            }
+            $mensaje .= '</select><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>';
+            echo $mensaje;
+        } else {
+            echo 'Error inesperado';
+        }
+    } catch (Exception $e) {
+        echo 'Error inesperado';
+    }
+}

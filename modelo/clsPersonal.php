@@ -187,4 +187,13 @@ class Personal extends Cado
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }
+
+    public function cargarSelectAdministradores() {
+        $sql  = "SELECT p.id, CONCAT(p.nombres, ' ', p.apellidos) AS nombre, p.principal
+            FROM persona p
+            INNER JOIN usuario u ON p.id = u.idpersona
+            WHERE u.tipo = 1";
+        $resultado = Cado::ejecutarConsulta($sql);
+        return $resultado;
+    }
 }
