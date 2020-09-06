@@ -42,7 +42,7 @@ class Telefono extends Cado
     }
 
     public function cargarNumeros($id) {
-        $sql  = "SELECT t.id, t.numero AS idtelefono, t.numero
+        $sql  = "SELECT t.id, t.numero
             FROM telefono t
             WHERE t.persona_id=$id";
         $resultado = Cado::ejecutarConsulta($sql);
@@ -81,5 +81,14 @@ class Telefono extends Cado
             }
         }
         return $mensaje;
+    }
+
+    public function cargarNumerosAdministradorPrincipal() {
+        $sql  = "SELECT t.numero
+            FROM telefono t
+            INNER JOIN persona p ON p.id = t.persona_id
+            WHERE p.principal = 1";
+        $resultado = Cado::ejecutarConsulta($sql);
+        return $resultado;
     }
 }

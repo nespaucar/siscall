@@ -33,30 +33,42 @@ if($_POST['google-response-token']) {
           $nombre = $row['nombre'];
         }
         $celulares = $oTelefono->cargarNumeros($idpersona);
+        $celularesAdmin = $oTelefono->cargarNumerosAdministradorPrincipal();
+        $mensTwilio = $oTelefono->obtenerConfiguracionMensaje();
+        $mensTwilio2 = '';
         if ($celulares->rowCount() > 0) {
           //ENVÍO MENSAJE A LOS NÚMEROS AFILIADOS A ESTE CLIENTE CON TWILIO
           foreach ($celulares as $row) {
-            $estado = "No Enviado";
             $numero = $row['numero'];
-            $mensTwilio = $oTelefono->obtenerConfiguracionMensaje();
             // procesamos mensaje
-            $mensTwilio = str_replace("[nombre]", $nombre, $mensTwilio);
-            $mensTwilio = str_replace("[numero]", $numero, $mensTwilio);
-            $messageTwilio = $client->messages->create(
-                // the number you'd like to send the message to
-                '+51' . $numero,
-                //'+51956930067',
-                [
+            $mensTwilio3 = $mensTwilio;
+            $mensTwilio3 = str_replace("[nombre]", $nombre, $mensTwilio3);
+            $mensTwilio3 = str_replace("[numero]", $numero, $mensTwilio3) . "\n\n";
+            $mensTwilio2 .= $mensTwilio3;
+          }
+          if ($celularesAdmin->rowCount() > 0) {
+            foreach ($celularesAdmin as $row2) {
+              $numero2 = $row2['numero'];
+              $estado = "No Enviado";
+              $messageTwilio = $client->messages->create(
+                  // the number you'd like to send the message to
+                  '+51' . $numero2,
+                  //'+51956930067',
+                  [
                     // A Twilio phone number you purchased at twilio.com/console
                     'from' => '+15124563240',
                     // the body of the text message you'd like to send
-                    'body' => $mensTwilio
-                ]
-            );
-            $estado = $messageTwilio->status;
-            //REGISTRO EN BASE DE DATOS EL ENVIO DEL MENSAJE
-            $nuevomensaje = $oTelefono->nuevoMensaje($idpersona, $nombre, $mensTwilio, $numero, $estado);
-          } 
+                    'body' => $mensTwilio2
+                  ]
+              );
+              $estado = $messageTwilio->status;
+              //REGISTRO EN BASE DE DATOS EL ENVIO DEL MENSAJE
+              $nuevomensaje = $oTelefono->nuevoMensaje($idpersona, $nombre, $mensTwilio2, $numero2, $estado);
+            }
+          } else {
+            //ADMIN NO TIENE CELULARES
+            $envio = 5;
+          }
         } else {
           //NO EXISTEN CELULARES PARA ESTE CLIENTE
           $envio = 4;
@@ -76,6 +88,8 @@ if($_POST['google-response-token']) {
       $mensaje = "<div class='alert alert-danger'> Ocurrió un error, vuelva a intentar. </div>";
     } else if($envio === 4) {
       $mensaje = "<div class='alert alert-danger'> Este cliente no tiene teléfonos registrados. </div>";
+    } else if($envio === 5) {
+      $mensaje = "<div class='alert alert-danger'> El administrador no ha sido configurado aún. </div>";
     }
 
     echo $mensaje;
