@@ -92,6 +92,13 @@ if ($accion == "ListaPersonal") {
         if ($rs->rowCount() > 0) {
             $i = 1;
             foreach ($rs as $row) {
+                $rtelefonos = $otelefono->ListaTelefonosUsuario($row['idpersona']);
+                $cadenatelefonos = '';
+                if ($rtelefonos->rowCount() > 0) {
+                    foreach ($rtelefonos as $rt) {
+                        $cadenatelefonos .= $rt['numero'] . "<br>";
+                    }
+                }
                 $retorno .= '<tr id="' . $row['idpersona'] . '">';
                 $retorno .= '<td>' . $row['nombre'] . '</td>';
                 $retorno .= '<td>' . $row['id_AB'] . '</td>';

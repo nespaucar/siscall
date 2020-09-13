@@ -11,7 +11,17 @@ $oPersona = new Personal();
 $oTelefono = new Telefono();
 $client = new Client(TWILIO_ID, TWILIO_TOKEN);
 
-if($_POST['google-response-token']) {
+$message = $client->messages
+  ->create("whatsapp:+51922179451", // to
+  [
+    "from" => "whatsapp:+15124563240",
+    "body" => "Hello there!"
+  ]
+);
+
+print($message->sid);
+
+/*if($_POST['google-response-token']) {
   $googleToken = $_POST['google-response-token'];
   $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".SECRET_KEY."&response={$googleToken}"); 
   $response = json_decode($response);
@@ -22,7 +32,7 @@ if($_POST['google-response-token']) {
     $mensaje = '';
     //COMPRUEBO EXISTENCIA DE CÓDIGO
     $codigo = $_POST['codigo'];
-    try {
+    //try {
       $rs = $oPersona->comprobarExistenciaCodigo($codigo);
       if ($rs->rowCount() > 0) {
         //ENVÍO LOS MENSAJES
@@ -52,11 +62,11 @@ if($_POST['google-response-token']) {
               $estado = "No Enviado";
               $messageTwilio = $client->messages->create(
                   // the number you'd like to send the message to
-                  '+51' . $numero2,
+                  'whatsapp:+51' . $numero2,
                   //'+51956930067',
                   [
                     // A Twilio phone number you purchased at twilio.com/console
-                    'from' => '+15124563240',
+                    'from' => 'whatsapp:+15124563240',
                     // the body of the text message you'd like to send
                     'body' => $mensTwilio2
                   ]
@@ -76,9 +86,9 @@ if($_POST['google-response-token']) {
       } else {
         $envio = 2;
       }
-    } catch (Exception $e) {
-      $envio = 3;
-    }
+    //} catch (Exception $e) {
+      //$envio = 3;
+    //}
 
     if($envio === 1) {
       $mensaje = "<div class='alert alert-success'> Se enviaron los mensajes correctamente. </div>";
@@ -97,4 +107,4 @@ if($_POST['google-response-token']) {
   } else {
     echo "<div class='alert alert-danger'> Ocurrió un error, vuelva a intentar. </div>";
   }
-}
+}*/
