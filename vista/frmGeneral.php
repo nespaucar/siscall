@@ -129,6 +129,19 @@ ini_set('display_errors', '1');
 	                        	</a>
 	                        </li>
 	                    </ul>
+	                    <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle" data-target="#reportes">
+	                        <i class="icon-file"> </i> Reportes
+	                        <span class="pull-right">
+	                          <i class="icon-angle-left"></i>
+	                        </span>&nbsp;<span class="label label-danger">1</span>&nbsp;
+	                    </a>
+	                    <ul class="collapse" id="reportes">
+	                        <li class="lista">
+	                        	<a href="javascript:void(0)" onclick="link('frmMensajes.php')">
+	                        		<i class="glyphicon glyphicon-phone"></i> Mensajes
+	                        	</a>
+	                        </li>
+	                    </ul>
 	                </li>
 	            </ul>
 	        </div>

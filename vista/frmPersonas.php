@@ -8,6 +8,14 @@ include "seguridad.php";
     $(document).ready(function(){
         llenarTabla('Personal', '6', '&tipo=2');
     });
+    function reporteCliente(type) {
+        var route = '../reporte/repClientes.php?accion=repClientes&tipo=' + type;
+        if (type == '1') {
+            window.open(route, null, 'height=500,width=700,status=yes,toolbar=no,menubar=no,location=no,titlebar=no');
+        } else {
+            location.href = route;
+        }
+    }
 </script>
 <script src="../assets/js/ordenarTablas.js"></script>
 
@@ -17,14 +25,17 @@ include "seguridad.php";
         <div class="panel panel-warning">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-lg-9">
+                    <div class="col-lg-8">
                         <h4 class="titulo"><i class="glyphicon glyphicon-user"></i> &nbsp;Personas</h4>
                     </div>
                     <div class="col-lg-1">
-                        <h4><a class="btn btn-danger btn-sm btn-line btn-rect" target="blank" href="../reporte/repClientes.php?accion=repClientes&tipo=1"><i class="icon-file"></i> Reporte PDF</a></h4>
+                        <h4><a class="btn btn-info btn-sm btn-line btn-rect" href="#" onclick="reporteCliente(1)"><i class="icon-file"></i>&nbsp;&nbsp;<i class="icon-eye-open"></i> Previsualizar</a></h4>
                     </div>
                     <div class="col-lg-1">
-                        <h4><a class="btn btn-primary btn-sm btn-line btn-rect" target="blank" href="../reporte/repClientes.php?accion=repClientes&tipo=2"><i class="icon-file"></i> Reporte Excel</a></h4>
+                        <h4><a class="btn btn-danger btn-sm btn-line btn-rect" href="#" onclick="reporteCliente(2)"><i class="icon-file"></i>&nbsp;&nbsp;<i class="glyphicon glyphicon-download-alt"></i> Reporte PDF</a></h4>
+                    </div>
+                    <div class="col-lg-1">
+                        <h4><a class="btn btn-primary btn-sm btn-line btn-rect" href="#" onclick="reporteCliente(3)"><i class="icon-file"></i>&nbsp;&nbsp;<i class="glyphicon glyphicon-download-alt"></i> Reporte Excel</a></h4>
                     </div>
                     <div class="col-lg-1">
                         <h4><a href="#" class="btn btn-success btn-sm btn-line btn-rect" id="nuevo" data-opcion="0" data-bean="Personas"><i class="icon-plus"></i> Crear</a></h4>

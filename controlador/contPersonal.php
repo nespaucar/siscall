@@ -374,3 +374,24 @@ if ($accion == "cargarSelectAdministradores") {
         echo 'Error inesperado';
     }
 }
+
+if ($accion == "obtenerClientesReporte") {
+    $mensaje = '<option value="">TODOS LOS CLIENTES...</option>';
+    try {
+        $rs = $personal->ListaClientesReporte(1);
+        if ($rs->rowCount() > 0) {
+            foreach ($rs as $row) {
+                if($row['principal'] === "1") {
+                    $mensaje .= '<option selected value="' . $row['idpersona'] . '">' . mb_strtoupper($row['nombre']) . '</option>';
+                } else {
+                    $mensaje .= '<option value="' . $row['idpersona'] . '">' . mb_strtoupper($row['nombre']) . '</option>';
+                }
+            }
+            echo $mensaje;
+        } else {
+            echo 'Error inesperado';
+        }
+    } catch (Exception $e) {
+        echo 'Error inesperado';
+    }
+}
