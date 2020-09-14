@@ -1,7 +1,7 @@
 <?php 
 
 require_once('../excel/Classes/PHPExcel.php');
-require_once('../modelo/clsTCPDF.php');
+require_once('../modelo/clsTCPDFClientes.php');
 include '../modelo/clsPersonal.php';
 include '../modelo/clsTelefono.php';
 date_default_timezone_set('America/Lima');
@@ -115,7 +115,7 @@ if($accion == 'repClientes') {
 
   $clientes = $opersona->ListaClientesReporte($idempresa);
 
-  if($tipo == '2') {
+  if($tipo == '3') {
     confInicial($objPHPExcel, $estiloTituloColumnas);  
     $objPHPExcel->setActiveSheetIndex(0);    
     $fila = 5;
@@ -227,6 +227,10 @@ if($accion == 'repClientes') {
 
     // reset pointer to the last page
     $pdf->lastPage();
+
+    if($tipo == 2) {
+      $opcionPDF = "D";
+    }
 
     //Close and output PDF document
     $pdf->Output("Clientes.pdf", $opcionPDF);
