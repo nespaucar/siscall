@@ -206,7 +206,7 @@ class Personal extends Cado
         return $resultado;
     }
 
-    public function ListaMensajesReporte($idpersona) {
+    public function ListaMensajesReporte($idpersona, $fecha1, $fecha2) {
         $sql  = "SELECT m.nombre, m.numero, m.created_at AS fecha,
                 CASE
                     WHEN m.estado = 'queued' THEN 'ENVIADO' ELSE 'ERROR AL ENVIAR'
@@ -214,7 +214,8 @@ class Personal extends Cado
             FROM mensaje m 
             INNER JOIN persona p ON m.idpersona = p.id
             INNER JOIN usuario u ON u.idpersona = p.id
-            WHERE u.tipo = 2";
+            WHERE u.tipo = 2
+            AND m.created_at BETWEEN CAST('$fecha1' AS DATE) AND CAST('$fecha2' AS DATE);";
         if($idpersona !== "") {
             $sql .= " AND p.id = " . $idpersona;
         }

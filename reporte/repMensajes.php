@@ -120,23 +120,35 @@ function retornoCabeceraTabla() {
   			</tr>';
 }
 
+function corregirFecha2Mensual($fecha) {
+  $expl = explode("-", $fecha);
+  $mes = $expl[1];
+  $anno =  $expl[0];
+  $f0 = new DateTime($anno . "-" . $mes . "-01");
+  $f0->modify('last day of this month');
+  return $anno . "-" . $mes . "-" . $f0->format('d');
+}
+
 function tipoReporte($intervalo) {
   return '<br><h2>FECHA: ' . $intervalo . '</h2><br>';
 }
 
-if($accion == 'reporteMensajes') { 
-
-  $fecha1 = date("d-m-Y", strtotime($_GET['fecha1']));
-  $fecha2 = date("d-m-Y", strtotime($_GET['fecha2']));
+if($accion == 'reporteMensajes') {
+  $fecha1 = $_GET['fecha1'];
+  $fecha2 = $_GET['fecha2'];
   $rango = $_GET['rango'];
-
-  if($fecha1 == $fecha2) {
-    $intervalo = $fecha1;
-  } else {
-    $intervalo = 'Del ' . $fecha1 . ' al ' . $fecha2;
+  if($rango == "MENSUAL") {
+    //Compruebo último día de mes para no tener problemas en el reporte, ya que no siempre hay 30 o 31 días
+    $fecha2 = corregirFecha2Mensual($fecha2);
   }
 
-  $mensajes = $opersona->ListaMensajesReporte($idpersona);
+  if($fecha1 == $fecha2) {
+    $intervalo = date("d-m-Y", strtotime($fecha1));
+  } else {
+    $intervalo = 'Del ' . date("d-m-Y", strtotime($fecha1)) . ' al ' . date("d-m-Y", strtotime($fecha2));
+  }
+
+  $mensajes = $opersona->ListaMensajesReporte($idpersona, $fecha1, $fecha2);
 
   if($tipo == '3') {
     confInicial($objPHPExcel, $estiloTituloColumnas);  
