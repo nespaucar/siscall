@@ -1,10 +1,15 @@
 <?php
 include "../modelo/clsPersonal.php";
 include "../modelo/clsTelefono.php";
+include "../modelo/clsUsuario.php";
+include("../frmGetCode/keys.php");
+require '../twilio-php-main/src/Twilio/autoload.php';
+use Twilio\Rest\Client;
 
 $accion   = $_GET['accion'];
 $personal = new Personal();
 $otelefono = new Telefono();
+$client = new Client(TWILIO_ID, TWILIO_TOKEN);
 
 if ($accion == "login") {
     $nombre = $_POST["nombre"];
@@ -56,22 +61,37 @@ if(!isset($_SESSION)){
 } 
 
 if ($accion == "recoverPass") {
-    $email = $_POST["email"];
+    $nombre = $_POST["name"];
     try {
-        $rs = $personal->recoverPass($email, $idempresa);
+        $rs = $personal->recoverPass($nombre, 1);
         if ($rs->rowCount() > 0) {
             foreach ($rs as $row) {
                 $pass      = substr(md5(rand(5, 100)), 0, 8);
-                $personal2 = new Personal();
-
-                $rs2 = $personal2->reiniciarPass(md5($pass), $row['id'], $idempresa);
-
-                $envio = mail($email, 'De: JackPolux', 'Recuperación de Contraseña para el usuario ' . $row['nombre'], 'Su contraseña nueva es: ' . $pass);
-                if($envio) {
+                $usuarios2 = new Usuario();
+                $rs2 = $usuarios2->reiniciarPass(md5($pass), $row['id'], 1);
+                // Envío la contraseña al usuario
+                $celulares = $otelefono->cargarNumeros($row['id']);
+                if ($celulares->rowCount() > 0) {
+                    //ENVÍO MENSAJE A LOS NÚMEROS AFILIADOS A ESTE CLIENTE CON TWILIO
+                    foreach ($celulares as $row2) {
+                        $message = $client->messages
+                          ->create("+51" . $row2['numero'], // to
+                          [
+                            "from" => "+15124563240",
+                            "body" => "Recuperación de Contraseña para el usuario " . $nombre . "\nSu contraseña nueva es: " . $pass
+                          ]
+                        );
+                    }
+                    echo "respuesta='1';";
+                } else {
+                    echo "respuesta='4';";
+                }
+                //$envio = mail($email, 'De: JackPolux', );
+                /*if($envio) {
                     echo "respuesta='1';";
                 } else {
                     echo "respuesta='2';";
-                }                
+                }*/                
             }
         } else {
             echo "respuesta='2';";

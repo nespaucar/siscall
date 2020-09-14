@@ -39,17 +39,22 @@ function submitLogin() {
     });
 };
 $(document).on('click', '#btnRecoverPass', function() {
-    var caract = new RegExp(/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/);
-    if ($('#email').val() == '') {
-        $('.mensajeLogin').removeClass('hide').html('<strong>Mensaje: </strong> Debes Ingresar un Correo.');
-        $('#email').focus();
+    //var caract = new RegExp(/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/);
+    if ($('#name').val() == '') {
+        $('.mensajeLogin').removeClass('hide').html('<strong>Mensaje: </strong> Debes Ingresar tu Clave.');
+        $('#name').focus();
         return false;
     }
-    if (caract.test($('#email').val()) == false) {
+    if (($('#name').val()).length !== 6) {
+        $('.mensajeLogin').removeClass('hide').html('<strong>Mensaje: </strong> Tu clave debe tener 6 caracteres.');
+        $('#name').focus();
+        return false;
+    }
+    /*if (caract.test($('#name').val()) == false) {
         $('.mensajeLogin').removeClass('hide').html('<strong>Mensaje: </strong> Debes Ingresar un formato de Correo.');
-        $('#email').focus();
+        $('#name').focus();
         return false;
-    }
+    }*/
     $.ajax({
         url: "../controlador/contPersonal.php?accion=recoverPass",
         type: 'POST',
@@ -60,10 +65,16 @@ $(document).on('click', '#btnRecoverPass', function() {
         success: function(a) {
             eval(a);
             if (respuesta == '1') {
-                $('.mensajeLogin').removeClass('alert-danger').addClass('alert-success').removeClass('hide').html('<strong>Mensaje: </strong> Se envió correctamente tu contraseña a tu correo. Revisa tu SPAM.');
-            } else {
-                $('.mensajeLogin').removeClass('alert-success').addClass('alert-danger').removeClass('hide').html('<strong>Mensaje: </strong> Tu correo no coincide con ningún Registro.');
+                $('.mensajeLogin').removeClass('alert-danger').addClass('alert-success').removeClass('hide').html('<strong>Mensaje: </strong> Se envió correctamente tu contraseña a tu número de celular.');
+            } else if (respuesta == '2') {
+                $('.mensajeLogin').removeClass('alert-success').addClass('alert-danger').removeClass('hide').html('<strong>Mensaje: </strong> No te encuentras registrado.');
+            } else if (respuesta == '4') {
+                $('.mensajeLogin').removeClass('alert-success').addClass('alert-danger').removeClass('hide').html('<strong>Mensaje: </strong> No tienes números de celulares registrados.');
+            } else if (respuesta == '3') {
+                $('.mensajeLogin').removeClass('alert-success').addClass('alert-danger').removeClass('hide').html('<strong>Mensaje: </strong> Ocurrió un error, vuelve a intentarlo.');
             }
+            $('#name').val("");
+            $('#name').focus();
         }
     });
 });

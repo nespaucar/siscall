@@ -17,8 +17,14 @@ include "seguridad.php";
         <div class="panel panel-warning">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-lg-11">
+                    <div class="col-lg-9">
                         <h4 class="titulo"><i class="glyphicon glyphicon-user"></i> &nbsp;Personas</h4>
+                    </div>
+                    <div class="col-lg-1">
+                        <h4><a class="btn btn-danger btn-sm btn-line btn-rect" target="blank" href="../reporte/repClientes.php?accion=repClientes&tipo=1"><i class="icon-file"></i> Reporte PDF</a></h4>
+                    </div>
+                    <div class="col-lg-1">
+                        <h4><a class="btn btn-primary btn-sm btn-line btn-rect" target="blank" href="../reporte/repClientes.php?accion=repClientes&tipo=2"><i class="icon-file"></i> Reporte Excel</a></h4>
                     </div>
                     <div class="col-lg-1">
                         <h4><a href="#" class="btn btn-success btn-sm btn-line btn-rect" id="nuevo" data-opcion="0" data-bean="Personas"><i class="icon-plus"></i> Crear</a></h4>

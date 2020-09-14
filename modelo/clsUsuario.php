@@ -23,9 +23,9 @@ class Usuario extends Cado
         return $resultado;
     }
 
-    public function recoverPass($email, $idempresa)
+    public function recoverPass($nombre, $idempresa)
     {
-        $sql       = "SELECT id, nombre FROM usuario WHERE email = '$email' AND idempresa = $idempresa";
+        $sql       = "SELECT id, nombre FROM usuario WHERE nombre = '$nombre' AND idempresa = $idempresa";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }

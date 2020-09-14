@@ -23,9 +23,9 @@ class Personal extends Cado
         return $resultado;
     }
 
-    public function recoverPass($email, $idempresa)
+    public function recoverPass($nombre, $idempresa)
     {
-        $sql       = "SELECT id, nombre FROM usuario WHERE email = '$email' AND idempresa = $idempresa";
+        $sql       = "SELECT id, nombre  FROM usuario WHERE nombre = '$nombre' AND idempresa = $idempresa";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }
@@ -193,6 +193,15 @@ class Personal extends Cado
             FROM persona p
             INNER JOIN usuario u ON p.id = u.idpersona
             WHERE u.tipo = 1";
+        $resultado = Cado::ejecutarConsulta($sql);
+        return $resultado;
+    }
+
+    public function ListaClientesReporte($idempresa) {
+        $sql  = "SELECT p.id AS idpersona, CONCAT(p.nombres, ' ', p.apellidos) AS nombre, p.id_AB AS clave
+            FROM usuario u INNER JOIN persona p ON u.idpersona = p.id
+            WHERE u.tipo=2 
+            AND u.idempresa = $idempresa";
         $resultado = Cado::ejecutarConsulta($sql);
         return $resultado;
     }

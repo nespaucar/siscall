@@ -44,7 +44,7 @@ if (isset($_SESSION['nombre'])) {
               <div class="alert alert-danger hide mensajeLogin"></div>
                 <h3 class="text-center">IDENTIFÍCATE</h3>
                 <hr>
-                <input type="text" placeholder="Usuario" name="nombre" id="nombre" class="form-control" />
+                <input type="text" placeholder="Usuario" maxlength="6" name="nombre" id="nombre" class="form-control" />
                 <input type="password" placeholder="Contraseña" name="pass" id="pass" class="form-control" />
                 <br/>
                 <button class="btn text-muted text-center btn-success" type="submit" onclick="submitLogin()">Ingresar</button>
@@ -55,7 +55,7 @@ if (isset($_SESSION['nombre'])) {
               <div class="alert alert-danger hide mensajeLogin"></div>
                 <h3 class="text-center">¿Olvidaste tu contraseña?</h3>
                 <hr>
-                <input type="email" required="required" placeholder="Tu E-mail" name="email" id="email" class="form-control" />
+                <input type="name" required="required" maxlength="6" placeholder="Tu clave" name="name" id="name" class="form-control" />
                 <br />
                 <button class="btn text-muted text-center btn-success" id="btnRecoverPass" type="button">Enviar Contraseña</button>                
             </form>

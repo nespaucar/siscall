@@ -9,12 +9,12 @@ class MYPDF extends TCPDF {
 	public function Header() {
 		// Logo
 		session_start();
-		$image_file = '../assets/img/' . $_SESSION['logo'];
-		$this->Image($image_file, 18, 18, 23, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+		$image_file = '../assets/img/logo2.png';
+		$this->Image($image_file, 18, 18, 23, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
 		// Set font
 		$this->SetFont('helvetica', 'B', 20);
 		// Title		
-		$this->Cell(0, 10, 'REPORTE ' . $_SESSION['nombreempresa'], 0, false, 'C', 0, '', 0, false, 'M', 'M');
+		$this->Cell(0, 10, 'REPORTE DE CLIENTES', 0, false, 'C', 0, '', 0, false, 'M', 'M');
 	}
 
 	// Page footer
